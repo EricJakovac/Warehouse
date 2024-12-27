@@ -1,5 +1,6 @@
 package com.backend.warehouse.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -47,6 +48,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "warehouseId", nullable = false)
+    @JsonBackReference
     private Warehouse warehouse;
 
     public Long getProductId() {

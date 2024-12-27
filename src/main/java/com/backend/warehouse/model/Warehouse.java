@@ -1,5 +1,6 @@
 package com.backend.warehouse.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -14,7 +15,6 @@ public class Warehouse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     private Long warehouseId;
 
     @NotBlank(message = "Naziv skladišta je obavezan.")
@@ -29,6 +29,7 @@ public class Warehouse {
     //CascadeType.ALL znači da će se automatski primjeniti operacije poput
     // save, delete, update na sve povezane Product entitete
     @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Product> productList;
 
     public Long getWarehouseId() {
