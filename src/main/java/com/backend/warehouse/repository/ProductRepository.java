@@ -1,0 +1,12 @@
+package com.backend.warehouse.repository;
+
+import com.backend.warehouse.model.Product;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface ProductRepository extends JpaRepository<Product, Long> {
+    //Dodatne operacije koje ne stvara JpaRepostory automatski
+    List<Product> findByWarehouse_WarehouseId(Long warehouseId);
+    List<Product> findByProductCode(String productCode);
+}
