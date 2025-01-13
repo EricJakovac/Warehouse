@@ -1,0 +1,46 @@
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: warehouseDB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/warehouse_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+    expose:
+      - "8080"
+
+  frontend:
+    build: ./frontend
+    depends_on:
+      - backend
+    volumes:
+      - frontend-build:/usr/share/nginx/html
+    ports:
+      - "8080:80"
+
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - frontend-build:/usr/share/nginx/html
+    ports:
+      - "8081:80"
+    depends_on:
+      - frontend
+      - backend
+
+volumes:
+  pgdata:
+  frontend-build: {}
