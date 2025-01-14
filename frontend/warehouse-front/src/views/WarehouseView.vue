@@ -73,6 +73,19 @@
           </div>
           </div>
 
+          <!--Try pull from DB-->
+          <div v-if="warehouses.length > 0">
+            <h2>Warehouses:</h2>
+            <ul>
+              <li v-for="(warehouse, index) in warehouses" :key="index">
+                {{ warehouse.name }} ({{ warehouse.location }})
+              </li>
+            </ul>
+          </div>
+          <div v-else>
+            <p>No warehouses found.</p>
+          </div>
+
       </div>
 
     </div> 
@@ -82,6 +95,9 @@
 <script>
 import WarehouseRijekaTable from "@/components/WarehouseRijekaTable.vue";
 import WarehouseZagrebTable from "@/components/WarehouseZagrebTable.vue";
+
+import axios from 'axios';
+
 export default {
 data() {
     return {
@@ -89,7 +105,8 @@ data() {
       tabs: [
         { title: "Rijeka" },
         { title: "Zagreb" }
-      ]
+      ],
+      warehouses: []
     };
   },
   components: {
@@ -100,7 +117,19 @@ data() {
     setActiveTab(index) {
       this.activeTab = index; // Update active tab index
     }
-  }
+  },
+  mounted() {
+  console.log("Component mounted");
+  axios.get('http://localhost:8080/warehouses')
+    .then(response => {
+      this.warehouses = response.data;
+      console.log("Data loaded:", this.warehouses);
+    })
+    .catch(error => {
+      console.error("API fetch error:", error);
+    });
+}
+
 };
 </script>
 

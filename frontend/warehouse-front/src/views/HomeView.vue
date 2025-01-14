@@ -73,6 +73,24 @@
           </div>
           </div>
 
+          <!--Try pull from DB-->
+          <div v-if="warehouses && warehouses.length > 0">
+            <h2>Warehouses:</h2>
+            <ul>
+              <li v-for="warehouse in warehouses" :key="warehouse.warehouseId">
+                {{ warehouse.warehouseName }} ({{ warehouse.location }})
+                <ul>
+                  <li v-for="product in warehouse.productList" :key="product.productId">
+                    {{ product.productName }} ({{ product.productQuantity }})
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div v-else>
+            <p>No warehouses found.</p>
+          </div>
+
       </div>
 
     </div> 
@@ -89,7 +107,8 @@ data() {
       tabs: [
         { title: "Rijeka" },
         { title: "Zagreb" }
-      ]
+      ],
+      warehouses: []
     };
   },
   components: {
