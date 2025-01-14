@@ -15,7 +15,7 @@ services:
     depends_on:
       - postgres
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/warehouse_db
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/warehouseDB
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
     expose:

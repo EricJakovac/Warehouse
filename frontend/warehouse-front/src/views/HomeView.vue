@@ -1,52 +1,107 @@
 <template>
   <div class="flex h-screen w-screen">
-    <div class="sidebar">
-      <div class="sidebar-header">
-        <h2>Admin Dashboard</h2>
+
+      <div class="content">
+      <div class="header" style="height: auto; display: inherit;">
+          <div class="sidebar-header">
+              <h2>Admin Dashboard</h2>
+          </div>
+
+          <!--Navbar-->
+          <div class="navbar">
+              <router-link to="/" style="display: flex; flex-direction: column;">
+                  <div class="nav_current">
+                      <v-icon name="hi-home" class="icon" />
+                      <h3>Home</h3>
+                  </div>
+                  <div class="line_current"></div>
+              </router-link>
+
+              <router-link to="/warehouses" style="display: flex; flex-direction: column;">
+                  <div class="nav_link">
+                      <v-icon name="bi-box-seam" class="icon" />
+                      <h3>Warehouse Management</h3>
+                  </div>
+                  <div class="line_hover"></div>
+              </router-link>
+          </div>
+
       </div>
-      <div class="nav">
-        <router-link to="/" class="nav_current">
-          <v-icon name="hi-home" class="icon" />
-          <h3>Home</h3>
-        </router-link>
-        <router-link to="/warehouse-management" class="nav_link">
-          <v-icon name="bi-box-seam" class="icon" />
-          <h3>Warehouse Management</h3>
-        </router-link>
-        <router-link to="/product-management" class="nav_link">
-          <v-icon name="bi-basket3" class="icon" />
-          <h3>Product Management</h3>
-        </router-link>
-        <router-link to="/orders" class="nav_link">
-          <v-icon name="md-payments-outlined" class="icon" />
-          <h3>Orders</h3>
-        </router-link>
-        <router-link to="/reports-and-analytics" class="nav_link">
-          <v-icon name="io-analytics-sharp" class="icon" />
-          <h3>Reports & Analytics</h3>
-        </router-link>
-        <router-link to="/predictive-analysis" class="nav_link">
-          <v-icon name="co-magnifying-glass" class="icon" />
-          <h3>Predictive Analysis</h3>
-        </router-link>
-        <router-link to="/settings" class="nav_link">
-          <v-icon name="ri-settings-4-line" class="icon" />
-          <h3>Settings</h3>
-        </router-link>
+
+      <!--Content-->
+      <div class="view">
+      <!--Button Add-->
+          <div class="flex" style="align-self: self-end; padding: 10px 0; padding-right: 10px;">
+          <button
+              class="middle none center mr-3 rounded-lg bg-gradient-to-tr from-[#7E99A3] to-[#7E99A3] py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-500/20 transition-all hover:shadow-lg hover:shadow-gray-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              @click="$router.push({path: '/add-new-product'})"
+              data-ripple-light="true">
+              Add new product
+          </button>
+          <button
+              class="middle none center mr-3 rounded-lg border border-[#1b263b] py-3 px-6 font-sans text-xs font-bold uppercase text-[#1b263b] transition-all hover:opacity-75 focus:ring focus:ring-gray-200 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              data-ripple-dark="true">
+              Edit product
+          </button>
+          </div>
+          
+          <div class="p-4">
+          <!-- Tailwind Tabs Warehouse -->
+          <div class="flex space-x-4 border-b border-gray-300">
+              <button
+              v-for="(tab, index) in tabs"
+              :key="tab.title"
+              @click="setActiveTab(index)"
+              :class="[
+                  'flex-1 py-2 px-4 rounded-md transition-all duration-300 focus:outline-none',
+                  activeTab === index
+                  ? 'bg-[#0d1b2a] text-white'
+                  : 'bg-white text-gray-500 hover:bg-blue-100 hover:text-[#0d1b2a]'
+              ]">
+              {{ tab.title }}
+              </button>
+          </div>
+  
+          <!--Tables-->
+          <div class="transition-all duration-300" style="padding-top: 20px;">
+              <div v-if="activeTab === 0" class="bg-white p-4 rounded-lg shadow-md border-l-4">
+              <warehouse-rijeka-table />
+              </div>
+              <div v-if="activeTab === 1" class="bg-white p-4 rounded-lg shadow-md border-l-4">
+              <warehouse-zagreb-table />
+              </div>
+          </div>
+          </div>
+
       </div>
-    </div>
-    <div class="content">
-      <div class="header">Menu</div>
-      <div class="bootstrap-namespace">
-        <!-- Bootstrap styles isolated here -->
-        <button class="btn btn-primary">Bootstrap Button</button>
-      </div>
-    </div>
+
+    </div> 
   </div>
 </template>
 
 <script>
-export default {};
+import WarehouseRijekaTable from "@/components/WarehouseRijekaTable.vue";
+import WarehouseZagrebTable from "@/components/WarehouseZagrebTable.vue";
+export default {
+data() {
+    return {
+      activeTab: 0, // Default active tab
+      tabs: [
+        { title: "Rijeka" },
+        { title: "Zagreb" }
+      ]
+    };
+  },
+  components: {
+    WarehouseRijekaTable,
+    WarehouseZagrebTable,
+  },
+  methods: {
+    setActiveTab(index) {
+      this.activeTab = index; // Update active tab index
+    }
+  }
+};
 </script>
 
 <style scoped>
@@ -56,13 +111,15 @@ export default {};
 @tailwind utilities;
 
 /* Sidebar Styles */
-.sidebar {
-  background-color: #1b263b;
-  width: 300px;
-  height: 100%;
-  color: white;
+
+.view {
   display: flex;
   flex-direction: column;
+  padding: 20px 30px;
+}
+
+h2 {
+  font-size: 25px;
 }
 
 .sidebar-header {
@@ -70,26 +127,39 @@ export default {};
   padding: 15px 25px;
   font-size: 18px;
   font-weight: 600;
+  min-width: 400px;
+  display: flex;
+  align-items: center;
 }
 
-.nav {
-  flex: 1;
+.navbar {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .nav_current {
   display: flex;
   align-items: center;
-  padding: 15px 25px;
+  padding: 15px 25px 10px 25px;
   color: white;
   text-decoration: none;
   background-color: #0d1b2a;
   width: 100%;
 }
 
+.line_current {
+  background-color: #7E99A3;
+  height: 3px;
+  width: 80px;
+  align-self: center;
+  border-radius: 150px;
+}
+
 .nav_link {
   display: flex;
   align-items: center;
-  padding: 15px 25px;
+  padding: 15px 25px 10px 25px;
   color: white;
   text-decoration: none;
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -101,6 +171,25 @@ export default {};
   color: white;
   width: 100%;
 }
+
+.nav_link:hover + .line_hover {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.line_hover {
+  display: block;
+  background-color: #7E99A3;
+  height: 3px;
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: opacity 0.3s, transform 0.3s;
+  width: 80px;
+  align-self: center;
+  border-radius: 150px;
+}
+
 
 .icon {
   width: 24px;
@@ -116,38 +205,19 @@ export default {};
   flex-direction: column;
 }
 
+.content_wrapper {
+  flex: 1;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
 .header {
   background-color: #0d1b2a;
   padding: 10px 20px;
   color: white;
+  flex-direction: row;
 }
 
-.bootstrap-namespace {
-  padding: 20px;
-}
-
-/* Allow Bootstrap styles only inside bootstrap-namespace */
-.bootstrap-namespace .btn {
-  all: unset;
-  display: inline-block;
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  user-select: none;
-  border: 1px solid transparent;
-  border-radius: 0.375rem;
-  color: #fff;
-  background-color: #0d6efd;
-  border-color: #0d6efd;
-  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
-}
-
-.bootstrap-namespace .btn:hover {
-  background-color: #0b5ed7;
-  border-color: #0a58ca;
-}
 </style>
