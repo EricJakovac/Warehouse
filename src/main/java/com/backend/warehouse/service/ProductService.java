@@ -1,7 +1,7 @@
 package com.backend.warehouse.service;
 
-import com.backend.warehouse.model.Product;
-import com.backend.warehouse.repository.ProductRepository;
+import com.backend.warehouse.model.*;
+import com.backend.warehouse.repository.*;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -11,9 +11,11 @@ import java.util.Objects;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final WarehouseRepository warehouseRepository;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, WarehouseRepository warehouseRepository) {
         this.productRepository = productRepository;
+        this.warehouseRepository = warehouseRepository;
     }
 
     public List<Product> getAllProducts() {
@@ -28,7 +30,11 @@ public class ProductService {
         return productRepository.findById(productId).orElseThrow();
     }
 
-    public Product addProduct(Product product) {
+    public Product addProduct(Product product, Long warehouseId) {
+        Warehouse warehouse = warehouseRepository.findById(warehouseId)
+                .orElseThrow(() -> new RuntimeException("Warehouse not found with ID: " + warehouseId));
+
+        product.setWarehouse(warehouse);
         return productRepository.save(product);
     }
 

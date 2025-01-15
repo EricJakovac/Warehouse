@@ -35,7 +35,6 @@ public class WarehouseService {
 
         warehouse.setWarehouseName(Objects.requireNonNull(warehouseDetails).getWarehouseName());
         warehouse.setLocation(Objects.requireNonNull(warehouseDetails).getLocation());
-        warehouse.setActive(Objects.requireNonNull(warehouseDetails).getActive());
         return warehouseRepository.save(warehouse);
     }
 

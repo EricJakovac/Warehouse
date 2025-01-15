@@ -23,9 +23,6 @@ public class Warehouse {
     @NotBlank(message = "Lokacija skladišta je obavezna.")
     private String location;
 
-    @NotNull
-    private Boolean active;
-
     //CascadeType.ALL znači da će se automatski primjeniti operacije poput
     // save, delete, update na sve povezane Product entitete
     @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL)
@@ -54,14 +51,6 @@ public class Warehouse {
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
     }
 
     public List<Product> getProductList() {
