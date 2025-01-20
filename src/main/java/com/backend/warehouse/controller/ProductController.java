@@ -39,14 +39,14 @@ public class ProductController {
         return productService.addProduct(product, productRequest.getWarehouseId());
     }
 
-    @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
-        return productService.updateProduct(id, product);
+    @PutMapping("/{productCode}")
+    public Product updateProduct(@PathVariable String productCode, @RequestBody Product product) {
+        return productService.updateProduct(productCode, product);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
+    @DeleteMapping("/{productCode}")
+    public void deleteProduct(@PathVariable String productCode) {
+        productService.deleteProduct(productCode);
     }
 
 }

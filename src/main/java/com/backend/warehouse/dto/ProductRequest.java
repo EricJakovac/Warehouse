@@ -1,6 +1,6 @@
 package com.backend.warehouse.dto;
 import lombok.Data;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 public class ProductRequest {
@@ -9,8 +9,8 @@ public class ProductRequest {
     private Integer productQuantity;
     private Integer productMinQuantity;
     private Double productPrice;
-    private LocalDateTime productArriveDate;
-    private LocalDateTime productDepartureDate;
+    private LocalDate productArriveDate;
+    private LocalDate productDepartureDate;
     private Long warehouseId;
 }
 

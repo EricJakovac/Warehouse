@@ -6,7 +6,7 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.annotations.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -39,12 +39,14 @@ public class Product {
     private Double productPrice;
 
     //Dolazak proizvoda
-    @CreationTimestamp
-    private LocalDateTime productArriveDate;
+    @NotNull(message = "Datum dolaska proizvoda je obavezan.")
+    @Column(nullable = false)
+    private LocalDate productArriveDate;
 
     //Odlazak proizvoda
-    @UpdateTimestamp
-    private LocalDateTime productDepartureDate;
+    @NotNull(message = "Datum odlaska proizvoda je obavezan.")
+    @Column(nullable = false)
+    private LocalDate productDepartureDate;
 
     @ManyToOne
     @JoinColumn(name = "warehouseId", nullable = false)
@@ -99,19 +101,19 @@ public class Product {
         this.productPrice = productPrice;
     }
 
-    public LocalDateTime getProductArriveDate() {
+    public LocalDate getProductArriveDate() {
         return productArriveDate;
     }
 
-    public void setProductArriveDate(LocalDateTime productArriveDate) {
+    public void setProductArriveDate(LocalDate productArriveDate) {
         this.productArriveDate = productArriveDate;
     }
 
-    public LocalDateTime getProductDepartureDate() {
+    public LocalDate getProductDepartureDate() {
         return productDepartureDate;
     }
 
-    public void setProductDepartureDate(LocalDateTime productDepartureDate) {
+    public void setProductDepartureDate(LocalDate productDepartureDate) {
         this.productDepartureDate = productDepartureDate;
     }
 

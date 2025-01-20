@@ -38,19 +38,21 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product updateProduct(Long productId, @NotNull Product productDetails) {
-        Product product = productRepository.findById(productId).orElseThrow();
+    public Product updateProduct(String productCode, @NotNull Product productDetails) {
+        Product product = productRepository.findByProductCode(productCode).orElseThrow();
 
         product.setProductName(Objects.requireNonNull(productDetails).getProductName());
         product.setProductCode(Objects.requireNonNull(productDetails).getProductCode());
         product.setProductQuantity(Objects.requireNonNull(productDetails).getProductQuantity());
         product.setProductMinQuantity(Objects.requireNonNull(productDetails).getProductMinQuantity());
         product.setProductPrice(Objects.requireNonNull(productDetails).getProductPrice());
+        product.setProductArriveDate(Objects.requireNonNull(productDetails).getProductArriveDate());
+        product.setProductDepartureDate(Objects.requireNonNull(productDetails).getProductDepartureDate());
 
         return productRepository.save(product);
     }
 
-    public void deleteProduct(Long productId) {
-        productRepository.deleteById(productId);
+    public void deleteProduct(String productCode) {
+        productRepository.deleteByProductCode(productCode);
     }
 }
