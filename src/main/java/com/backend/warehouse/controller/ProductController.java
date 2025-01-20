@@ -3,6 +3,7 @@ package com.backend.warehouse.controller;
 import com.backend.warehouse.dto.ProductRequest;
 import com.backend.warehouse.model.Product;
 import com.backend.warehouse.service.ProductService;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,13 +41,13 @@ public class ProductController {
     }
 
     @PutMapping("/{productCode}")
-    public Product updateProduct(@PathVariable String productCode, @RequestBody Product product) {
+    public Product updateProduct(@PathVariable @Pattern(regexp = "^[0-9]{6}$") String productCode, @RequestBody Product product) {
         return productService.updateProduct(productCode, product);
     }
 
     @DeleteMapping("/{productCode}")
-    public void deleteProduct(@PathVariable String productCode) {
-        productService.deleteProduct(productCode);
+    public void deleteProduct(@PathVariable @Pattern(regexp = "^[0-9]{6}$") String productCode) {
+        productService.deleteByProductCode(productCode);
     }
 
 }

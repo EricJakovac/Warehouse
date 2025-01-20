@@ -2,6 +2,7 @@ package com.backend.warehouse.service;
 
 import com.backend.warehouse.model.*;
 import com.backend.warehouse.repository.*;
+import jakarta.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -52,7 +53,8 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public void deleteProduct(String productCode) {
+    @Transactional
+    public void deleteByProductCode(String productCode) {
         productRepository.deleteByProductCode(productCode);
     }
 }
