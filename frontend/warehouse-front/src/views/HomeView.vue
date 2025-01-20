@@ -98,6 +98,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import WarehouseRijekaTable from "@/components/WarehouseRijekaTable.vue";
 import WarehouseZagrebTable from "@/components/WarehouseZagrebTable.vue";
 export default {
@@ -108,7 +109,7 @@ data() {
         { title: "Rijeka" },
         { title: "Zagreb" }
       ],
-      warehouses: []
+      warehouses: [] //data will be fetched from API
     };
   },
   components: {
@@ -118,7 +119,18 @@ data() {
   methods: {
     setActiveTab(index) {
       this.activeTab = index; // Update active tab index
+    },
+    async getWarehouses() {
+      try {
+        const response = await axios.get("http://localhost:8080/warehouses/");
+        this.warehouses = response.data;
+      } catch(error) {
+        console.error("Error fetching warehouses: ", error);
+      }
     }
+  },
+  mounted() {
+    this.getWarehouses(); // Fetch warehouses on component mount
   }
 };
 </script>

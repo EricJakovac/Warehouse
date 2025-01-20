@@ -6,7 +6,7 @@
           <h2>Admin Dashboard</h2>
         </div>
 
-        <!--Navbar-->
+        <!-- Navbar -->
         <div class="navbar">
           <router-link to="/" style="display: flex; flex-direction: column;">
             <div class="nav_current">
@@ -24,52 +24,42 @@
             <div class="line_hover"></div>
           </router-link>
         </div>
-
       </div>
 
-      <!--Content-->
+      <!-- Content -->
       <div class="view">
         <div class="content">
           <div class="content_wrapper">
             <div class="title">
-              <h1>Add new product</h1>
+              <h1>Edit Product</h1>
             </div>
-            
-            <!--Form-->
+
+            <!-- Form -->
             <div class="flex items-center justify-center p-12">
               <div class="mx-auto w-full max-w-[550px]">
-                <form @submit.prevent="submitProduct">
-                  <!--code and name-->
+                <form @submit.prevent="submitProductUpdate">
+                  <!-- code and name -->
                   <div class="-mx-3 flex flex-wrap">
-                    <!--product code-->
+                    <!-- product code -->
                     <div class="w-full px-3 sm:w-1/2">
                       <div class="mb-5">
                         <label for="productCode" class="mb-3 block text-base font-medium text-[#0d1b2a]">
-                          Product code
+                          Product Code
                         </label>
-                        <div>
-                          <input
+                        <input
                           v-model="product.productCode"
                           type="text"
                           id="productCode"
-                          placeholder="Enter product code"
                           class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                          disabled
                         />
-                          <button type="button" 
-                          @click="generateProductCode"
-                          class="ml-3 px-4 py-2 text-white bg-blue-500 rounded-md text-sm">
-                          Generate
-                        </button>
-                        </div>
-                        
-
                       </div>
                     </div>
-                    <!--product name-->
+                    <!-- product name -->
                     <div class="w-full px-3 sm:w-1/2">
                       <div class="mb-5">
                         <label for="productName" class="mb-3 block text-base font-medium text-[#0d1b2a]">
-                          Product name
+                          Product Name
                         </label>
                         <input
                           v-model="product.productName"
@@ -79,23 +69,20 @@
                           class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#6A64F1] focus:shadow-md"
                         />
                       </div>
-                      
                     </div>
                   </div>
 
-                  <!-- quantity and price -->
+                  <!-- Quantity and price -->
                   <div class="-mx-3 flex flex-wrap">
                     <div class="w-full px-3 sm:w-1/2">
                       <div class="mb-5">
                         <label for="productQuantity" class="mb-3 block text-base font-medium text-[#0d1b2a]">
-                          Quantity Of Product
+                          Quantity of Product
                         </label>
                         <input
                           v-model="product.productQuantity"
                           type="number"
                           id="productQuantity"
-                          placeholder="5"
-                          min="0"
                           class="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#6A64F1] focus:shadow-md"
                         />
                       </div>
@@ -103,21 +90,19 @@
                     <div class="w-full px-3 sm:w-1/2">
                       <div class="mb-5">
                         <label for="productMinQuantity" class="mb-3 block text-base font-medium text-[#0d1b2a]">
-                          Minimal Quantity Of Product
+                          Minimal Quantity of Product
                         </label>
                         <input
                           v-model="product.productMinQuantity"
                           type="number"
                           id="productMinQuantity"
-                          placeholder="0"
-                          min="0"
                           class="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#6A64F1] focus:shadow-md"
                         />
                       </div>
                     </div>
                   </div>
 
-                  <!-- product price -->
+                  <!-- Product price -->
                   <div class="mb-5">
                     <label for="productPrice" class="mb-3 block text-base font-medium text-[#0d1b2a]">
                       Product Price
@@ -126,28 +111,25 @@
                       v-model="product.productPrice"
                       type="number"
                       id="productPrice"
-                      placeholder="0.00"
-                      steps="0.01"
                       class="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     />
                   </div>
 
-                  <!-- dates -->
+                  <!-- Dates -->
                   <div class="-mx-3 flex flex-wrap">
                     <div class="w-full px-3 sm:w-1/2">
                       <div class="mb-5">
                         <label for="productArriveDate" class="mb-3 block text-base font-medium text-[#0d1b2a]">
-                          Product arrive Date
+                          Product Arrival Date
                         </label>
                         <input
                           v-model="product.productArriveDate"
                           type="datetime-local"
                           id="productArriveDate"
-                          class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#0d1b2a] focus:shadow-md"
+                          class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#6A64F1] focus:shadow-md"
                         />
                       </div>
                     </div>
-
                     <div class="w-full px-3 sm:w-1/2">
                       <div class="mb-5">
                         <label for="productDepartureDate" class="mb-3 block text-base font-medium text-[#0d1b2a]">
@@ -157,13 +139,13 @@
                           v-model="product.productDepartureDate"
                           type="datetime-local"
                           id="productDepartureDate"
-                          class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#0d1b2a] focus:shadow-md"
+                          class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#6A64F1] focus:shadow-md"
                         />
                       </div>
                     </div>
                   </div>
 
-                  <!-- warehouse selection -->
+                  <!-- Warehouse selection -->
                   <div class="mb-5">
                     <label class="mb-3 block text-base font-medium text-[#0d1b2a]">
                       Select Warehouse
@@ -184,15 +166,15 @@
                     </div>
                   </div>
 
-                  <!-- buttons -->
+                  <!-- Buttons -->
                   <div>
                     <button class="middle none center mr-3 rounded-lg border border-[#1b263b] py-3 px-6 font-sans text-xs font-bold uppercase text-[#1b263b] transition-all hover:opacity-75 focus:ring focus:ring-gray-200 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                       type="button" @click="$router.push('/')">
                       Cancel
                     </button>
-                    <button class="middle none center mr-3 rounded-lg bg-gradient-to-tr from-[#7E99A3] to-[#7E99A3] py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-500/20 transition-all hover:shadow-lg hover:shadow-gray-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" 
+                    <button class="middle none center mr-3 rounded-lg bg-gradient-to-tr from-[#7E99A3] to-[#7E99A3] py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-500/20 transition-all hover:shadow-lg hover:shadow-gray-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                       type="submit">
-                      Save
+                      Update
                     </button>
                   </div>
                 </form>
@@ -201,41 +183,52 @@
           </div>
         </div>
       </div>
-    </div> 
+    </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   data() {
     return {
       product: {
-        productCode: '',
-        productName: '',
+        productCode: "",
+        productName: "",
         productQuantity: 0,
         productMinQuantity: 0,
         productPrice: 0,
-        productArriveDate: '',
-        productDepartureDate: '',
-        selectedWarehouse: null,  // Single warehouse id, not an array
+        productArriveDate: "",
+        productDepartureDate: "",
+        selectedWarehouse: null,
       },
-      warehouses: [
-        { id: 1, name: 'Warehouse Rijeka' },
-        { id: 2, name: 'Warehouse Zagreb' },
-      ],
+      warehouses: [],
     };
   },
+  async created() {
+  try {
+    const productId = this.$route.params.id;
+    console.log("Fetching product with ID:", productId); // Debugging log
+    const [productResponse, warehousesResponse] = await Promise.all([
+      axios.get(`http://localhost:8080/products/${productId}`),
+      axios.get("http://localhost:8080/warehouses/"),
+    ]);
+    this.product = { ...productResponse.data };
+    this.warehouses = warehousesResponse.data;
+  } catch (error) {
+    console.error("Error loading data:", error);
+    if (error.response && error.response.status === 404) {
+      alert("Product not found. Please check the ID.");
+    } else {
+      alert("Failed to load data. Please try again later.");
+    }
+  }
+},
 
   methods: {
-    generateProductCode() {
-    // Generate a random 6-digit product code
-    this.product.productCode = Math.floor(100000 + Math.random() * 900000).toString();
-  },
-    async submitProduct() {
+    async submitProductUpdate() {
       try {
-
         const productRequest = {
           productCode: this.product.productCode,
           productName: this.product.productName,
@@ -243,30 +236,27 @@ export default {
           productMinQuantity: this.product.productMinQuantity,
           productPrice: this.product.productPrice,
           productArriveDate: this.formatDateString(this.product.productArriveDate),
-          productDepartureDate:this.formatDateString (this.product.productDepartureDate),
+          productDepartureDate: this.formatDateString(this.product.productDepartureDate),
           warehouseId: this.product.selectedWarehouse,
         };
 
-        console.log("Submitting product request: ", productRequest);
-
-        const response = await axios.post('http://localhost:8080/products/', productRequest);
-
-        console.log("Product added: ", response.data);
-        alert('Product added successfully!');
-        this.$router.push('/');
-      } catch(error) {
-        console.error('Error adding product: ', error);
-        alert('Failed to add product.');
+        const productId = this.$route.params.id;
+        await axios.put(`http://localhost:8080/products/${productId}`, productRequest);
+        alert("Product updated successfully!");
+        this.$router.push("/");
+      } catch (error) {
+        console.error("Failed to update product: ", error);
+        alert("Failed to update product.");
       }
+    },
+    formatDateString(date) {
+      if (!date) return null;
+      return new Date(date).toISOString().slice(0, 16);
+    },
   },
-  formatDateString(date) {
-    if (!date) return null;
-    return new Date(date).toISOString().slice(0,16);
-  }
-}
 };
-
 </script>
+
 
 
 <style scoped>

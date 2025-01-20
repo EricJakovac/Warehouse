@@ -17,7 +17,7 @@
                   <div class="line_hover"></div>
               </router-link>
 
-              <router-link to="/warehouses" style="display: flex; flex-direction: column;">
+              <router-link to="/warehouses/" style="display: flex; flex-direction: column;">
                   <div class="nav_current">
                       <v-icon name="bi-box-seam" class="icon" />
                       <h3>Warehouse Management</h3>
@@ -120,7 +120,7 @@ data() {
   },
   mounted() {
   console.log("Component mounted");
-  axios.get('http://localhost:8080/warehouses')
+  axios.get('http://localhost:8080/warehouses/')
     .then(response => {
       this.warehouses = response.data;
       console.log("Data loaded:", this.warehouses);
