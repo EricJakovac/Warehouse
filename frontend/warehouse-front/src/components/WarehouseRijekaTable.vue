@@ -27,11 +27,15 @@
             <td>{{ item.arrive_date }}</td>
             <td>{{ item.departure_date }}</td>
             <!--Actions-->
-            <button class="edit_btn" @click="editProduct(item)">
-              E
+            <button class="edit_btn" @click="editProduct(item)" style="width: 50%;">
+              <div style="border-radius: 100px; background-color: #1b263b; color: #ffffff; width: 24px;">
+              <v-icon name="md-modeeditoutline" class="icon" style="width: 15px;"/>
+              </div>
             </button>
-            <button class="delete_btn" @click="deleteProduct(item)">
-              D
+            <button class="delete_btn" @click="deleteProduct(item)" style="width: 50%;">
+              <div style="border-radius: 100px; background-color: #1b263b; color: #ffffff; width: 24px;">
+                <v-icon name="ri-delete-bin-7-fill" class="icon" style="width: 13px;"/>
+              </div>
             </button>
           </tr>
         </tbody>
@@ -52,8 +56,10 @@ export default {
   },
   computed: {
     filteredData() {
+      const query = this.searchQuery.toLowerCase();
       return this.data.filter((item) =>
-        item.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+        item.name.toLowerCase().includes(query) ||
+        item.code.toLowerCase().includes(query)
       );
     },
   },
@@ -91,7 +97,7 @@ export default {
     },
     // Edit product
     editProduct(item) {
-      this.$router.push({name: 'EditProduct', params: {id: item.id}});
+      this.$router.push({name: 'EditProduct', params: {code: item.code}});
     },
   },
   mounted() {

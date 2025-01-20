@@ -41,7 +41,7 @@
           <button
               class="middle none center mr-3 rounded-lg border border-[#1b263b] py-3 px-6 font-sans text-xs font-bold uppercase text-[#1b263b] transition-all hover:opacity-75 focus:ring focus:ring-gray-200 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               data-ripple-dark="true">
-              Edit product
+              Secondary button
           </button>
           </div>
           
@@ -71,24 +71,6 @@
               <warehouse-zagreb-table />
               </div>
           </div>
-          </div>
-
-          <!--Try pull from DB-->
-          <div v-if="warehouses && warehouses.length > 0">
-            <h2>Warehouses:</h2>
-            <ul>
-              <li v-for="warehouse in warehouses" :key="warehouse.warehouseId">
-                {{ warehouse.warehouseName }} ({{ warehouse.location }})
-                <ul>
-                  <li v-for="product in warehouse.productList" :key="product.productId">
-                    {{ product.productName }} ({{ product.productQuantity }})
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-          <div v-else>
-            <p>No warehouses found.</p>
           </div>
 
       </div>

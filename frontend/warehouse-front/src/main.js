@@ -12,6 +12,9 @@ import { MdPaymentsOutlined } from "oh-vue-icons/icons";
 import { IoAnalyticsSharp } from "oh-vue-icons/icons";
 import { CoMagnifyingGlass } from "oh-vue-icons/icons";
 import { RiSettings4Line } from "oh-vue-icons/icons";
+import { MdModeeditoutline } from "oh-vue-icons/icons";
+import { RiDeleteBin7Fill } from "oh-vue-icons/icons";
+
 
 // main.js/ts
 import { createBootstrap } from "bootstrap-vue-next";
@@ -28,6 +31,8 @@ addIcons(MdPaymentsOutlined);
 addIcons(IoAnalyticsSharp);
 addIcons(CoMagnifyingGlass);
 addIcons(RiSettings4Line);
+addIcons(MdModeeditoutline);
+addIcons(RiDeleteBin7Fill);
 app.component("v-icon", OhVueIcon);
 
 app.use(createBootstrap()); // Important
