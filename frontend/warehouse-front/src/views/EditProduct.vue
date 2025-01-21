@@ -30,6 +30,17 @@
       <div class="view">
         <div class="content">
           <div class="content_wrapper">
+
+            <!--Alert Messages-->
+            <div v-if="alertMessage" :class="alertClass" class="flex rounded-lg p-4 mb-4 text-sm" role="alert">
+              <svg class="w-5 h-5 inline mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+              </svg>
+              <div>
+                <span class="font-medium">{{ alertTitle }}</span> {{ alertMessage }}
+              </div>
+            </div>
+
             <div class="title">
               <h1>Edit Product</h1>
             </div>
@@ -201,27 +212,32 @@ export default {
         productPrice: 0,
         productArriveDate: "",
         productDepartureDate: "",
-        selectedWarehouse: null,
+        selectedWarehouse: null,  // Single warehouse id, not an array
       },
       warehouses: [],
+      alertMessage: "",
+      alertTitle: "",
+      alertType: "",
     };
   },
   async created() {
   try {
-    const productId = this.$route.params.id;
-    console.log("Fetching product with ID:", productId); // Debugging log
+    const productCode = this.$route.params.id;
+    console.log("Fetching product with code:", productCode); // Debugging log
+    console.log("Fetched product: ", productResponse.data);
+    console.log("Fetched warehouses: ", warehousesResponse.data);
     const [productResponse, warehousesResponse] = await Promise.all([
-      axios.get(`http://localhost:8080/products/${productId}`),
+      axios.get(`http://localhost:8080/products/${productCode}`),
       axios.get("http://localhost:8080/warehouses/"),
     ]);
     this.product = { ...productResponse.data };
     this.warehouses = warehousesResponse.data;
   } catch (error) {
-    console.error("Error loading data:", error);
+    console.error("Error details:", error.response ? error.response.data : error.message);
     if (error.response && error.response.status === 404) {
-      alert("Product not found. Please check the ID.");
+      this.showAlert("Product not found. Please check the ID.", "Error", "error");
     } else {
-      alert("Failed to load data. Please try again later.");
+      this.showAlert("Failed to load data. Please try again later.", "Error", "error");
     }
   }
 },
@@ -242,18 +258,41 @@ export default {
 
         const productId = this.$route.params.id;
         await axios.put(`http://localhost:8080/products/${productId}`, productRequest);
-        alert("Product updated successfully!");
+        this.showAlert("Product updated successfully!", "Success", "success");
         this.$router.push("/");
       } catch (error) {
         console.error("Failed to update product: ", error);
-        alert("Failed to update product.");
+        this.showAlert("Failed to update product. Please try again.", "Error", "error");
       }
+    },
+    showAlert(message, title, type) {
+      this.alertMessage = message;
+      this.alertTitle = title;
+      this.alertType = type;
     },
     formatDateString(date) {
       if (!date) return null;
       return new Date(date).toISOString().slice(0, 16);
     },
   },
+  
+  computed: {
+    alertClass() {
+      switch (this.alertType) {
+        case "success":
+          return "bg-green-100 text-green-700";
+        case "error":
+          return "bg-red-100 text-red-700";
+        case "info":
+          return "bg-blue-100 text-blue-700";
+        case "warning":
+          return "bg-yellow-100 text-yellow-700";
+        default:
+          return "";
+      }
+    },
+  },
+
 };
 </script>
 
