@@ -4,6 +4,7 @@ import com.backend.warehouse.model.*;
 import com.backend.warehouse.repository.*;
 import jakarta.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
@@ -25,6 +26,10 @@ public class ProductService {
 
     public List<Product> getProductsByWarehouseId(Long warehouseId) {
         return productRepository.findByWarehouse_WarehouseId(warehouseId);
+    }
+
+    public Product getProductByProductCode(String productCode) {
+        return productRepository.findByProductCode(productCode).orElseThrow();
     }
 
     public Product getProductById(Long productId) {

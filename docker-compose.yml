@@ -1,6 +1,6 @@
 services:
   backend:
-    build: .
+    image: ericjakovac/warehouse-backend:latest
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://aws-0-eu-central-2.pooler.supabase.com:5432/postgres?user=postgres.ltnadadrqhwenjlzdvqc&password=password
       SPRING_DATASOURCE_USERNAME: postgres
@@ -9,9 +9,13 @@ services:
       - "8080"
     networks:
       - warehouse-network
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
 
   frontend:
-    build: ./frontend
+    image: ericjakovac/warehouse-frontend:latest
     depends_on:
       - backend
     volumes:
@@ -37,4 +41,4 @@ volumes:
 
 networks:
   warehouse-network:
-    driver: bridge
+    driver: overlay
