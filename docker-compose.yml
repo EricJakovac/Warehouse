@@ -1,8 +1,8 @@
 services:
   backend:
-    image: ericjakovac/warehouse-backend:latest
+    image: ericjakovac/warehouse-backend:1.1
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://aws-0-eu-central-2.pooler.supabase.com:5432/postgres?user=postgres.ltnadadrqhwenjlzdvqc&password=password
+      SPRING_DATASOURCE_URL: jdbc:postgresql://aws-0-eu-central-2.pooler.supabase.com:6543/postgres?user=postgres.ltnadadrqhwenjlzdvqc&password=password
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
     expose:
@@ -15,7 +15,7 @@ services:
         condition: on-failure
 
   frontend:
-    image: ericjakovac/warehouse-frontend:latest
+    image: ericjakovac/warehouse-frontend:1.1
     depends_on:
       - backend
     volumes:
