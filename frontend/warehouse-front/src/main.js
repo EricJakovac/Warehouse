@@ -15,6 +15,9 @@ import { RiSettings4Line } from "oh-vue-icons/icons";
 import { MdModeeditoutline } from "oh-vue-icons/icons";
 import { RiDeleteBin7Fill } from "oh-vue-icons/icons";
 import { HiRefresh } from "oh-vue-icons/icons";
+import { BiCircleHalf } from "oh-vue-icons/icons";
+
+
 
 
 
@@ -36,6 +39,7 @@ addIcons(RiSettings4Line);
 addIcons(MdModeeditoutline);
 addIcons(RiDeleteBin7Fill);
 addIcons(HiRefresh);
+addIcons(BiCircleHalf);
 app.component("v-icon", OhVueIcon);
 
 app.use(createBootstrap()); // Important

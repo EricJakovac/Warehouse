@@ -1,137 +1,154 @@
-<template>
-  <div class="flex h-screen w-screen">
+<!-- component -->
+<!-- full tailwind config using javascript -->
+<!-- https://github.com/neurolinker/popice -->
+ <template>
 
-      <div class="content">
-      <div class="header" style="height: auto; display: inherit;">
-          <div class="sidebar-header">
-              <h2>Admin Dashboard</h2>
-          </div>
+<div class="flex h-screen w-screen" style="height: 100%; overflow: hidden;">
 
-          <!--Navbar-->
-          <div class="navbar">
-              <router-link to="/" style="display: flex; flex-direction: column;">
-                  <div class="nav_link">
-                      <v-icon name="hi-home" class="icon" />
-                      <h3>Home</h3>
-                  </div>
-                  <div class="line_hover"></div>
-              </router-link>
+  <div class="content">
+    <div class="header" style="height: auto; display: inherit;">
+        <div class="sidebar-header">
+            <h2>Admin Dashboard</h2>
+        </div>
 
-              <router-link to="/orders" style="display: flex; flex-direction: column;">
-                  <div class="nav_current">
-                      <v-icon name="bi-box-seam" class="icon" />
-                      <h3>Orders</h3>
-                  </div>
-                  <div class="line_current"></div>
-              </router-link>
-          </div>
+        <!--Navbar-->
+        <div class="navbar">
+            <router-link to="/" style="display: flex; flex-direction: column;">
+                <div class="nav_current">
+                    <v-icon name="hi-home" class="icon" />
+                    <h3>Home</h3>
+                </div>
+                <div class="line_current"></div>
+            </router-link>
 
-      </div>
+            <router-link to="/orders" style="display: flex; flex-direction: column;">
+                <div class="nav_link">
+                    <v-icon name="bi-box-seam" class="icon" />
+                    <h3>Orders</h3>
+                </div>
+                <div class="line_hover"></div>
+            </router-link>
+        </div>
 
+    </div>
       <!--Content-->
-      <div class="view">
-      <!--Button Add-->
-          <div class="flex" style="align-self: self-end; padding: 10px 0; padding-right: 10px;">
-          <button
-              class="middle none center mr-3 rounded-lg bg-gradient-to-tr from-[#7E99A3] to-[#7E99A3] py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-500/20 transition-all hover:shadow-lg hover:shadow-gray-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-              @click="$router.push({path: '/add-new-product'})"
-              data-ripple-light="true">
-              Add new product
-          </button>
-          <button
-              class="middle none center mr-3 rounded-lg border border-[#1b263b] py-3 px-6 font-sans text-xs font-bold uppercase text-[#1b263b] transition-all hover:opacity-75 focus:ring focus:ring-gray-200 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-              data-ripple-dark="true">
-              Edit product
-          </button>
-          </div>
-          
-          <div class="p-4">
-          <!-- Tailwind Tabs Warehouse -->
-          <div class="flex space-x-4 border-b border-gray-300">
-              <button
-              v-for="(tab, index) in tabs"
-              :key="tab.title"
-              @click="setActiveTab(index)"
-              :class="[
-                  'flex-1 py-2 px-4 rounded-md transition-all duration-300 focus:outline-none',
-                  activeTab === index
-                  ? 'bg-[#0d1b2a] text-white'
-                  : 'bg-white text-gray-500 hover:bg-blue-100 hover:text-[#0d1b2a]'
-              ]">
-              {{ tab.title }}
-              </button>
-          </div>
-  
-          <!--Tables-->
-          <div class="transition-all duration-300" style="padding-top: 20px;">
-              <div v-if="activeTab === 0" class="bg-white p-4 rounded-lg shadow-md border-l-4">
-              <warehouse-rijeka-table />
+      <div class="display">
+        <div class="view">
+          <div class="sidebar">
+            <!--Pending Tab-->
+            <div class="tabs">
+              <div class="tab_current">
+                <v-icon name="bi-circle-half" class="icon-side" style="color: yellow; width: 24px;"/>
+                <h3 style="font-size: 19px; font-weight: 600;">Pending Orders</h3>
               </div>
-              <div v-if="activeTab === 1" class="bg-white p-4 rounded-lg shadow-md border-l-4">
-              <warehouse-zagreb-table />
-              </div>
+              <div class="line_current_tab"></div>
+            </div>
+            <!--Processing Tab-->
+            <div class="tabs">
+              <div class="tab_link">
+                <v-icon name="bi-circle-half" class="icon-side" style="color: blue;"/>
+                <h3>Confirmed Orders</h3>
+                </div>
+                <div class="line_hover_tab"></div>
+            </div>
+            <!--Compketed Tab-->
+            <div class="tabs">
+              <div class="tab_link">
+                <v-icon name="bi-circle-half" class="icon-side" style="color: green;"/>
+                <h3>Delivered Orders</h3>
+                </div>
+                <div class="line_hover_tab"></div>
+            </div>
+            <!--Declined Tab-->
+            <div class="tabs">
+              <div class="tab_link">
+                    <v-icon name="bi-circle-half" class="icon-side" style="color: red;"/>
+                    <h3>Cancelled Orders</h3>
+                </div>
+                <div class="line_hover_tab"></div>
+            </div>
           </div>
-          </div>
+            
+            <div class="p-4" style="width: 100%;">  
+            <!--List-->
+            <div class="transition-all duration-300" style="padding-top: 20px;">
+                <div class="bg-white p-4 rounded-lg shadow-md border-l-4">
+                <pending-orders-table />
+                </div>
+            </div>
+            </div>
 
-          <!--Try pull from DB-->
-          <div v-if="warehouses.length > 0">
-            <h2>Warehouses:</h2>
-            <ul>
-              <li v-for="(warehouse, index) in warehouses" :key="index">
-                {{ warehouse.name }} ({{ warehouse.location }})
-              </li>
-            </ul>
-          </div>
-          <div v-else>
-            <p>No warehouses found.</p>
-          </div>
-
+        </div>
       </div>
-
-    </div> 
+    
   </div>
+</div>
+
 </template>
 
 <script>
-import WarehouseRijekaTable from "@/components/WarehouseRijekaTable.vue";
-import WarehouseZagrebTable from "@/components/WarehouseZagrebTable.vue";
+      const sidebar = document.querySelector("aside");
+      const maxSidebar = document.querySelector(".max")
+      const miniSidebar = document.querySelector(".mini")
+      const roundout = document.querySelector(".roundout")
+      const maxToolbar = document.querySelector(".max-toolbar")
+      const logo = document.querySelector('.logo')
+      const content = document.querySelector('.content')
+      const moon = document.querySelector(".moon")
+      const sun = document.querySelector(".sun")
 
-import axios from 'axios';
+      function setDark(val){
+          if(val === "dark"){
+              document.documentElement.classList.add('dark')
+              moon.classList.add("hidden")
+              sun.classList.remove("hidden")
+          }else{
+              document.documentElement.classList.remove('dark')
+              sun.classList.add("hidden")
+              moon.classList.remove("hidden")
+          }
+      }
 
+      function openNav() {
+          if(sidebar.classList.contains('-translate-x-48')){
+              // max sidebar 
+              sidebar.classList.remove("-translate-x-48")
+              sidebar.classList.add("translate-x-none")
+              maxSidebar.classList.remove("hidden")
+              maxSidebar.classList.add("flex")
+              miniSidebar.classList.remove("flex")
+              miniSidebar.classList.add("hidden")
+              maxToolbar.classList.add("translate-x-0")
+              maxToolbar.classList.remove("translate-x-24","scale-x-0")
+              logo.classList.remove("ml-12")
+              content.classList.remove("ml-12")
+              content.classList.add("ml-12","md:ml-60")
+          }else{
+              // mini sidebar
+              sidebar.classList.add("-translate-x-48")
+              sidebar.classList.remove("translate-x-none")
+              maxSidebar.classList.add("hidden")
+              maxSidebar.classList.remove("flex")
+              miniSidebar.classList.add("flex")
+              miniSidebar.classList.remove("hidden")
+              maxToolbar.classList.add("translate-x-24","scale-x-0")
+              maxToolbar.classList.remove("translate-x-0")
+              logo.classList.add('ml-12')
+              content.classList.remove("ml-12","md:ml-60")
+              content.classList.add("ml-12")
+
+          }
+
+      }
+
+import axios from "axios";
+import PendingOrdersTable from '../components/PendingOrdersTable.vue';
 export default {
-data() {
-    return {
-      activeTab: 0, // Default active tab
-      tabs: [
-        { title: "Rijeka" },
-        { title: "Zagreb" }
-      ],
-      warehouses: []
-    };
-  },
   components: {
-    WarehouseRijekaTable,
-    WarehouseZagrebTable,
+    PendingOrdersTable,
   },
-  methods: {
-    setActiveTab(index) {
-      this.activeTab = index; // Update active tab index
-    }
-  },
-  mounted() {
-  console.log("Component mounted");
-  axios.get('http://localhost:8080/warehouses/')
-    .then(response => {
-      this.warehouses = response.data;
-      console.log("Data loaded:", this.warehouses);
-    })
-    .catch(error => {
-      console.error("API fetch error:", error);
-    });
-}
-
 };
-</script>
+  </script>
 
 <style scoped>
 /* Tailwind setup */
@@ -141,10 +158,33 @@ data() {
 
 /* Sidebar Styles */
 
-.view {
+.tabs {
+  padding-bottom: 10px;
   display: flex;
   flex-direction: column;
-  padding: 20px 30px;
+}
+
+.display {
+  height: 100%;
+}
+
+.sidebar {
+  height: 90%;
+  min-width: 300px;
+  padding: 20px;
+  background-color: #fff;
+  color: #0d1b2a;
+  --tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -2px rgba(0, 0, 0, .1);
+    --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    margin: 20px 20px 0;
+}
+
+.view {
+  height: 100%;
+  background-color: #fff;
+  display: flex;
+  flex-direction: row;
 }
 
 h2 {
@@ -177,6 +217,16 @@ h2 {
   width: 100%;
 }
 
+.tab_current {
+  display: flex;
+  align-items: center;
+  padding: 15px 25px 10px 25px;
+  color: #0d1b2a;
+  text-decoration: none;
+  background-color: #fff;
+  width: 100%;
+}
+
 .line_current {
   background-color: #7E99A3;
   height: 3px;
@@ -185,11 +235,30 @@ h2 {
   border-radius: 150px;
 }
 
+.line_current_tab {
+  background-color: #e7e7e7;
+  height: 1.5px;
+  width: 90%;
+  align-self: center;
+  border-radius: 150px;
+  margin-top: 15px;
+}
+
 .nav_link {
   display: flex;
   align-items: center;
   padding: 15px 25px 10px 25px;
-  color: white;
+  color: #fff;
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  width: 100%;
+}
+
+.tab_link {
+  display: flex;
+  align-items: center;
+  padding: 15px 25px 10px 25px;
+  color: #0d1b2a;
   text-decoration: none;
   transition: background-color 0.3s ease, color 0.3s ease;
   width: 100%;
@@ -201,7 +270,18 @@ h2 {
   width: 100%;
 }
 
+.tab_link:hover {
+  background-color: #fff;
+  color: #0d1b2a;
+  width: 90%;
+}
+
 .nav_link:hover + .line_hover {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.tab_link:hover + .line_hover_tab {
   opacity: 1;
   transform: scaleX(1);
 }
@@ -219,9 +299,27 @@ h2 {
   border-radius: 150px;
 }
 
+.line_hover_tab {
+  display: block;
+  background-color: #fff;
+  height: 1px;
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: opacity 0.3s, transform 0.3s;
+  width: 90%;
+  align-self: center;
+  border-radius: 150px;
+}
 
 .icon {
   width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+.icon-side {
+  width: 14px;
   height: 24px;
   margin-right: 10px;
 }
@@ -232,6 +330,8 @@ h2 {
   background-color: white;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  height: 100vh;
 }
 
 .content_wrapper {

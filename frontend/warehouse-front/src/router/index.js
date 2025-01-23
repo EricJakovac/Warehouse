@@ -28,6 +28,7 @@ const routes = [
     component: EditProduct,
   }
   
+  
 ];
 
 const router = Router();
