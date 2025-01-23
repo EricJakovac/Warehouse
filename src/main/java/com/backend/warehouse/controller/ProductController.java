@@ -26,6 +26,11 @@ public class ProductController {
         return productService.getProductsByWarehouseId(warehouseId);
     }
 
+    @GetMapping("/{productCode}")
+    public Product getProductByProductCode(@PathVariable String productCode) {
+        return productService.getProductByProductCode(productCode);
+    }
+
     @PostMapping
     public Product addProduct(@RequestBody ProductRequest productRequest) {
         Product product = new Product();

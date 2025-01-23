@@ -27,6 +27,10 @@ public class ProductService {
         return productRepository.findByWarehouse_WarehouseId(warehouseId);
     }
 
+    public Product getProductByProductCode(String productCode) {
+        return productRepository.findByProductCode(productCode).orElseThrow();
+    }
+
     public Product getProductById(Long productId) {
         return productRepository.findById(productId).orElseThrow();
     }
