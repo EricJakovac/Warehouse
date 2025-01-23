@@ -14,30 +14,14 @@ services:
       restart_policy:
         condition: on-failure
 
-  frontend:
-    image: ericjakovac/warehouse-frontend:1.2
-    depends_on:
-      - backend
-    volumes:
-      - frontend-build:/usr/share/nginx/html
-    networks:
-      - warehouse-network
-
-  nginx:
-    image: nginx:alpine
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - frontend-build:/usr/share/nginx/html
+  frontend-nginx:
+    image: ericjakovac/warehouse-frontend-nginx:1.2
     ports:
       - "8080:80"
     depends_on:
-      - frontend
       - backend
     networks:
       - warehouse-network
-
-volumes:
-  frontend-build: {}
 
 networks:
   warehouse-network:
