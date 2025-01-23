@@ -16,10 +16,10 @@
             <div class="line_hover"></div>
           </router-link>
 
-          <router-link to="/warehouses" style="display: flex; flex-direction: column;">
+          <router-link to="/orders" style="display: flex; flex-direction: column;">
             <div class="nav_link">
               <v-icon name="bi-box-seam" class="icon" />
-              <h3>Warehouse Management</h3>
+              <h3>Orders</h3>
             </div>
             <div class="line_hover"></div>
           </router-link>
@@ -48,16 +48,19 @@
             </div>
             
             <!--Form-->
-            <div class="flex items-center justify-center p-12">
+            <div class="flex items-center justify-center p-12" style="padding-top: 2rem; padding-bottom: unset;">
               <div class="mx-auto w-full" style="margin: unset !important; display: flex; justify-content: center;">
                 <form @submit.prevent="submitProduct">
-                  <div style="display: flex; flex-direction: row;">
+
+                  <!--1st row-->
+                  <div style="display: flex; flex-direction: row; margin-bottom: 50px;">
                     <!--code and name-->
                     <div class="-mx-3 flex flex-wrap" style="width: auto; margin-right: 10px;">
                       <!--product code-->
                       <div class="w-full px-3 sm:w-1/2" style="padding: unset !important;">
-                        <div class="mb-5" style="margin-right: 20px;">
-                          <label for="productCode" class="mb-3 block text-base font-medium text-[#0d1b2a]">
+                        <div class="mb-5" style="margin-right: 20px; margin-bottom: unset !important;">
+                          <label for="productCode" class="mb-3 block text-base font-medium text-[#0d1b2a]"
+                          style="font-weight: 600;">
                             Product code
                           </label>
                           <div style="display: flex;">
@@ -67,11 +70,12 @@
                             id="productCode"
                             placeholder="Enter product code"
                             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                            style="border-top-right-radius: unset; border-bottom-right-radius: unset;"
                           />
                             <button type="button" 
                             @click="generateProductCode"
                             class="ml-3 px-4 py-2 text-white bg-blue-500 rounded-md text-sm" 
-                            style="background-color: #1b263b;">
+                            style="background-color: #1b263b; margin-left: unset; border-top-left-radius: unset; border-bottom-left-radius: unset;">
                             <v-icon name="hi-refresh" class="icon" style="margin: unset !important;" />
                           </button>
                           </div>
@@ -81,8 +85,9 @@
                       </div>
                       <!--product name-->
                       <div class="w-full px-3 sm:w-1/2" style="padding: unset !important;">
-                        <div class="mb-5" style="margin-right: 20px;">
-                          <label for="productName" class="mb-3 block text-base font-medium text-[#0d1b2a]">
+                        <div class="mb-5" style="margin-right: 20px; margin-bottom: unset !important;">
+                          <label for="productName" class="mb-3 block text-base font-medium text-[#0d1b2a]"
+                          style="font-weight: 600;">
                             Product name
                           </label>
                           <input
@@ -101,8 +106,9 @@
                     <div class="-mx-3 flex flex-wrap">
                       <!--product quantity-->
                       <div class="w-full px-3 sm:w-1/2" style="padding: unset !important;">
-                        <div class="mb-5" style="margin-right: 20px;">
-                          <label for="productQuantity" class="mb-3 block text-base font-medium text-[#0d1b2a]">
+                        <div class="mb-5" style="margin-right: 20px; margin-bottom: unset !important;">
+                          <label for="productQuantity" class="mb-3 block text-base font-medium text-[#0d1b2a]"
+                          style="font-weight: 600;">
                             Quantity Of Product
                           </label>
                           <input
@@ -117,8 +123,9 @@
                       </div>
                       <!--product min quantity-->
                       <div class="w-full px-3 sm:w-1/2" style="padding: unset !important;">
-                        <div class="mb-5" style="margin-right: 20px;">
-                          <label for="productMinQuantity" class="mb-3 block text-base font-medium text-[#0d1b2a]">
+                        <div class="mb-5" style="margin-right: 20px; margin-bottom: unset !important;">
+                          <label for="productMinQuantity" class="mb-3 block text-base font-medium text-[#0d1b2a]"
+                          style="font-weight: 600;">
                             Minimal Quantity Of Product
                           </label>
                           <input
@@ -135,11 +142,13 @@
 
                   </div>
 
-                  <div style="display: flex; flex-direction: row; justify-content: center;">
+                  <!--2nd row-->
+                  <div style="display: flex; flex-direction: row; justify-content: center; margin-bottom: 50px;">
                     <!-- product price -->
                     <div class="-mx-3 flex flex-wrap">
-                      <div class="mb-5" style="padding: unset !important;">
-                        <label for="productPrice" class="mb-3 block text-base font-medium text-[#0d1b2a]">
+                      <div class="mb-5" style="padding: unset !important; margin-bottom: unset !important;">
+                        <label for="productPrice" class="mb-3 block text-base font-medium text-[#0d1b2a]"
+                        style="font-weight: 600;">
                           Product Price
                         </label>
                         <input
@@ -157,8 +166,9 @@
                     <div class="-mx-3 flex flex-wrap" style="padding-left: 44px;">
                       <!--arrive date-->
                       <div class="w-full px-3 sm:w-1/2" style="padding: unset !important;">
-                        <div class="mb-5" style="margin-right: 20px;">
-                          <label for="productArriveDate" class="mb-3 block text-base font-medium text-[#0d1b2a]">
+                        <div class="mb-5" style="margin-right: 20px; margin-bottom: unset !important;">
+                          <label for="productArriveDate" class="mb-3 block text-base font-medium text-[#0d1b2a]"
+                          style="font-weight: 600;">
                             Product arrive Date
                           </label>
                           <input
@@ -172,8 +182,9 @@
 
                       <!--departure date-->
                       <div class="w-full px-3 sm:w-1/2" style="padding: unset !important;">
-                        <div class="mb-5" style="margin-right: 20px;">
-                          <label for="productDepartureDate" class="mb-3 block text-base font-medium text-[#0d1b2a]">
+                        <div class="mb-5" style="margin-right: 20px; margin-bottom: unset !important;">
+                          <label for="productDepartureDate" class="mb-3 block text-base font-medium text-[#0d1b2a]"
+                          style="font-weight: 600;">
                             Product Departure Date
                           </label>
                           <input
@@ -187,9 +198,10 @@
                     </div>
                   </div>
 
-                  <!-- warehouse selection -->
-                  <div class="mb-5">
-                    <label class="mb-3 block text-base font-medium text-[#0d1b2a]">
+                  <!-- 3rd row -->
+                  <div class="mb-5" style="margin-bottom: 50px !important;">
+                    <label class="mb-3 block text-base font-medium text-[#0d1b2a]"
+                    style="font-weight: 600;  margin-bottom: 50px;">
                       Select Warehouse
                     </label>
                     <div class="flex flex-wrap gap-4" style="display: flex; justify-content: center;">
@@ -331,10 +343,10 @@ computed: {
 }
 
 h1 {
-  font-size: 40px;
+  font-size: 33px;
   font-weight: 600;
   padding-bottom: unset;
-  padding-top: 20px;
+  padding-top: 10px;
 }
 
 h2 {

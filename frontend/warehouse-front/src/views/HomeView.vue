@@ -17,10 +17,10 @@
                   <div class="line_current"></div>
               </router-link>
 
-              <router-link to="/warehouses" style="display: flex; flex-direction: column;">
+              <router-link to="/orders" style="display: flex; flex-direction: column;">
                   <div class="nav_link">
                       <v-icon name="bi-box-seam" class="icon" />
-                      <h3>Warehouse Management</h3>
+                      <h3>Orders</h3>
                   </div>
                   <div class="line_hover"></div>
               </router-link>
