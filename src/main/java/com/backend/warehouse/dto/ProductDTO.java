@@ -3,7 +3,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class ProductRequest {
+public class ProductDTO {
     private String productName;
     private String productCode;
     private Integer productQuantity;
