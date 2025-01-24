@@ -28,7 +28,203 @@
       </div>
 
       <!--Content-->
-     y
+      <div class="view">
+        <div class="content">
+          <div class="content_wrapper">
+
+            <!--Alert Messages-->
+            <div v-if="alertMessage" :class="alertClass" class="flex rounded-lg p-4 mb-4 text-sm" role="alert">
+              <svg class="w-5 h-5 inline mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+              </svg>
+              <div>
+                <span class="font-medium">{{ alertTitle }}</span> {{ alertMessage }}
+              </div>
+            </div>
+
+            <!--Title-->
+            <div class="title">
+              <h1>Add new product</h1>
+            </div>
+            
+            <!--Form-->
+            <div class="flex items-center justify-center p-12">
+              <div class="mx-auto w-full" style="margin: unset !important; display: flex; justify-content: center;">
+                <form @submit.prevent="submitProduct">
+                  <div style="display: flex; flex-direction: row;">
+                    <!--code and name-->
+                    <div class="-mx-3 flex flex-wrap" style="width: auto; margin-right: 10px;">
+                      <!--product code-->
+                      <div class="w-full px-3 sm:w-1/2" style="padding: unset !important;">
+                        <div class="mb-5" style="margin-right: 20px;">
+                          <label for="productCode" class="mb-3 block text-base font-medium text-[#0d1b2a]">
+                            Product code
+                          </label>
+                          <div style="display: flex;">
+                            <input
+                            v-model="product.productCode"
+                            type="text"
+                            id="productCode"
+                            placeholder="Enter product code"
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                          />
+                            <button type="button" 
+                            @click="generateProductCode"
+                            class="ml-3 px-4 py-2 text-white bg-blue-500 rounded-md text-sm" 
+                            style="background-color: #1b263b;">
+                            <v-icon name="hi-refresh" class="icon" style="margin: unset !important;" />
+                          </button>
+                          </div>
+                          
+
+                        </div>
+                      </div>
+                      <!--product name-->
+                      <div class="w-full px-3 sm:w-1/2" style="padding: unset !important;">
+                        <div class="mb-5" style="margin-right: 20px;">
+                          <label for="productName" class="mb-3 block text-base font-medium text-[#0d1b2a]">
+                            Product name
+                          </label>
+                          <input
+                            v-model="product.productName"
+                            type="text"
+                            id="productName"
+                            placeholder="Enter full product name"
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                          />
+                        </div>
+                        
+                      </div>
+                    </div>
+
+                    <!-- quantity-->
+                    <div class="-mx-3 flex flex-wrap">
+                      <!--product quantity-->
+                      <div class="w-full px-3 sm:w-1/2" style="padding: unset !important;">
+                        <div class="mb-5" style="margin-right: 20px;">
+                          <label for="productQuantity" class="mb-3 block text-base font-medium text-[#0d1b2a]">
+                            Quantity Of Product
+                          </label>
+                          <input
+                            v-model="product.productQuantity"
+                            type="number"
+                            id="productQuantity"
+                            placeholder="5"
+                            min="0"
+                            class="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                          />
+                        </div>
+                      </div>
+                      <!--product min quantity-->
+                      <div class="w-full px-3 sm:w-1/2" style="padding: unset !important;">
+                        <div class="mb-5" style="margin-right: 20px;">
+                          <label for="productMinQuantity" class="mb-3 block text-base font-medium text-[#0d1b2a]">
+                            Minimal Quantity Of Product
+                          </label>
+                          <input
+                            v-model="product.productMinQuantity"
+                            type="number"
+                            id="productMinQuantity"
+                            placeholder="0"
+                            min="0"
+                            class="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div style="display: flex; flex-direction: row; justify-content: center;">
+                    <!-- product price -->
+                    <div class="-mx-3 flex flex-wrap">
+                      <div class="mb-5" style="padding: unset !important;">
+                        <label for="productPrice" class="mb-3 block text-base font-medium text-[#0d1b2a]">
+                          Product Price
+                        </label>
+                        <input
+                          v-model="product.productPrice"
+                          type="number"
+                          id="productPrice"
+                          placeholder="0.00"
+                          step="0.01"
+                          class="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                        />
+                      </div>
+                    </div>
+
+                    <!-- dates -->
+                    <div class="-mx-3 flex flex-wrap" style="padding-left: 44px;">
+                      <!--arrive date-->
+                      <div class="w-full px-3 sm:w-1/2" style="padding: unset !important;">
+                        <div class="mb-5" style="margin-right: 20px;">
+                          <label for="productArriveDate" class="mb-3 block text-base font-medium text-[#0d1b2a]">
+                            Product arrive Date
+                          </label>
+                          <input
+                            v-model="product.productArriveDate"
+                            type="datetime-local"
+                            id="productArriveDate"
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#0d1b2a] focus:shadow-md"
+                          />
+                        </div>
+                      </div>
+
+                      <!--departure date-->
+                      <div class="w-full px-3 sm:w-1/2" style="padding: unset !important;">
+                        <div class="mb-5" style="margin-right: 20px;">
+                          <label for="productDepartureDate" class="mb-3 block text-base font-medium text-[#0d1b2a]">
+                            Product Departure Date
+                          </label>
+                          <input
+                            v-model="product.productDepartureDate"
+                            type="datetime-local"
+                            id="productDepartureDate"
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#0d1b2a] focus:shadow-md"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- warehouse selection -->
+                  <div class="mb-5">
+                    <label class="mb-3 block text-base font-medium text-[#0d1b2a]">
+                      Select Warehouse
+                    </label>
+                    <div class="flex flex-wrap gap-4" style="display: flex; justify-content: center;">
+                      <div v-for="warehouse in warehouses" :key="warehouse.id" class="flex items-center">
+                        <input
+                          type="radio"
+                          :id="'warehouse-' + warehouse.id"
+                          :value="warehouse.id"
+                          v-model="product.selectedWarehouse"
+                          class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                        />
+                        <label :for="'warehouse-' + warehouse.id" class="ml-2 text-sm text-gray-700">
+                          {{ warehouse.name }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- buttons -->
+                  <div>
+                    <button class="middle none center mr-3 rounded-lg border border-[#1b263b] py-3 px-6 font-sans text-xs font-bold uppercase text-[#1b263b] transition-all hover:opacity-75 focus:ring focus:ring-gray-200 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                      type="button" @click="$router.push('/')">
+                      Cancel
+                    </button>
+                    <button class="middle none center mr-3 rounded-lg bg-gradient-to-tr from-[#1b263b] to-[#1b263b] py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-500/20 transition-all hover:shadow-lg hover:shadow-gray-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" 
+                      type="submit">
+                      Save
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div> 
   </div>
 </template>
