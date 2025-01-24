@@ -285,10 +285,21 @@ export default {
     },
     async updateProduct() {
       const productCode = this.$route.params.id;
+
+       // Validate the product price
+      const pricePattern = /^\d+(\.\d{1,2})?$/; // Matches numbers like 12 or 12.09
+      if (!pricePattern.test(this.product.productPrice) || this.product.productPrice < 0) {
+        this.setAlert(
+          "Product price is invalid. Please ensure it's a positive number in the format 12 or 12.09.",
+          "danger",
+          "Invalid Input"
+        );
+        return; // Prevent the update
+      }
+
       try {
         await axios.put(`http://localhost:8080/products/${productCode}`, this.product);
-        alert("Product updated successfully");
-        this.$router.push("/"); // Redirect to home page
+        this.setAlert("Product updated successfully", "success", "Success!");
       
       
       //Redirect after 2 secs
@@ -321,6 +332,13 @@ export default {
       this.alertMessage = message;
       this.alertType = type;
       this.alertTitle = title;
+
+       // Auto clear the alert after 5 seconds
+    setTimeout(() => {
+      this.alertMessage = "";
+      this.alertTitle = "";
+      this.alertType = "";
+    }, 5000);
     },
 
     generateProductCode() {
