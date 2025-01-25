@@ -3,9 +3,11 @@
 
       <div class="content">
       <div class="header" style="height: auto; display: inherit;">
-          <div class="sidebar-header">
-              <h2>Admin Dashboard</h2>
-          </div>
+        <div class="sidebar-header">
+          <router-link to="/">
+            <h2>Admin Dashboard</h2>
+          </router-link>
+        </div>
 
           <!--Navbar-->
           <div class="navbar">
@@ -17,7 +19,7 @@
                   <div class="line_current"></div>
               </router-link>
 
-              <router-link to="/orders" style="display: flex; flex-direction: column;">
+              <router-link to="/orders/" style="display: flex; flex-direction: column;">
                   <div class="nav_link">
                       <v-icon name="bi-box-seam" class="icon" />
                       <h3>Orders</h3>

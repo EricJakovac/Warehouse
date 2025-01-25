@@ -3,7 +3,9 @@
     <div class="content">
       <div class="header" style="height: auto; display: inherit;">
         <div class="sidebar-header">
-          <h2>Admin Dashboard</h2>
+          <router-link to="/">
+            <h2>Admin Dashboard</h2>
+          </router-link>
         </div>
 
         <!--Navbar-->

@@ -1,154 +1,123 @@
-<!-- component -->
-<!-- full tailwind config using javascript -->
-<!-- https://github.com/neurolinker/popice -->
- <template>
-
-<div class="flex h-screen w-screen" style="height: 100%; overflow: hidden;">
-
-  <div class="content">
-    <div class="header" style="height: auto; display: inherit;">
+<template>
+  <div class="flex h-screen w-screen" style="height: 100%; overflow: hidden;">
+    <div class="content">
+      <div class="header" style="height: auto; display: inherit;">
         <div class="sidebar-header">
+          <router-link to="/">
             <h2>Admin Dashboard</h2>
+          </router-link>
         </div>
 
-        <!--Navbar-->
+        <!-- Navbar -->
         <div class="navbar">
-            <router-link to="/" style="display: flex; flex-direction: column;">
-                <div class="nav_current">
-                    <v-icon name="hi-home" class="icon" />
-                    <h3>Home</h3>
-                </div>
-                <div class="line_current"></div>
-            </router-link>
+          <router-link to="/" style="display: flex; flex-direction: column;">
+            <div class="nav_link">
+              <v-icon name="hi-home" class="icon" />
+              <h3>Home</h3>
+            </div>
+            <div class="line_hover"></div>
+          </router-link>
 
-            <router-link to="/orders" style="display: flex; flex-direction: column;">
-                <div class="nav_link">
-                    <v-icon name="bi-box-seam" class="icon" />
-                    <h3>Orders</h3>
-                </div>
-                <div class="line_hover"></div>
-            </router-link>
-        </div>
-
-    </div>
-      <!--Content-->
-      <div class="display">
-        <div class="view">
-          <div class="sidebar">
-            <!--Pending Tab-->
-            <div class="tabs">
-              <div class="tab_current">
-                <v-icon name="bi-circle-half" class="icon-side" style="color: yellow; width: 24px;"/>
-                <h3 style="font-size: 19px; font-weight: 600;">Pending Orders</h3>
-              </div>
-              <div class="line_current_tab"></div>
+          <router-link to="/orders/" style="display: flex; flex-direction: column;">
+            <div class="nav_current">
+              <v-icon name="bi-box-seam" class="icon" />
+              <h3>Orders</h3>
             </div>
-            <!--Processing Tab-->
-            <div class="tabs">
-              <div class="tab_link">
-                <v-icon name="bi-circle-half" class="icon-side" style="color: blue;"/>
-                <h3>Confirmed Orders</h3>
-                </div>
-                <div class="line_hover_tab"></div>
-            </div>
-            <!--Compketed Tab-->
-            <div class="tabs">
-              <div class="tab_link">
-                <v-icon name="bi-circle-half" class="icon-side" style="color: green;"/>
-                <h3>Delivered Orders</h3>
-                </div>
-                <div class="line_hover_tab"></div>
-            </div>
-            <!--Declined Tab-->
-            <div class="tabs">
-              <div class="tab_link">
-                    <v-icon name="bi-circle-half" class="icon-side" style="color: red;"/>
-                    <h3>Cancelled Orders</h3>
-                </div>
-                <div class="line_hover_tab"></div>
-            </div>
-          </div>
-            
-            <div class="p-4" style="width: 100%;">  
-            <!--List-->
-            <div class="transition-all duration-300" style="padding-top: 20px;">
-                <div class="bg-white p-4 rounded-lg shadow-md border-l-4">
-                <pending-orders-table />
-                </div>
-            </div>
-            </div>
-
+            <div class="line_current"></div>
+          </router-link>
         </div>
       </div>
-    
-  </div>
-</div>
 
+      <!-- Content -->
+      <div class="display">
+        <div class="view">
+          <!-- Tabs -->
+          <div class="sidebar">
+            <div class="tabs">
+              <button
+                v-for="(tab, index) in tabs"
+                :key="tab.title"
+                @click="setActiveTab(index)"
+                :class="[
+                  'tab',
+                  activeTab === index ? 'bg-[#0d1b2a] text-white' : 'bg-white text-gray-500 hover:bg-blue-100 hover:text-[#0d1b2a]',
+                ]"
+              >
+                <v-icon name="bi-circle-half" class="icon-side" :style="{ color: tab.color }" />
+                <h3>{{ tab.title }}</h3>
+              </button>
+            </div>
+          </div>
+
+          <div class="p-4" style="width: 100%;">
+            <div class="transition-all duration-300" style="padding-top: 20px;">
+              <!-- Display list -->
+              <div v-if="activeTab === 0" class="bg-white p-4 rounded-lg shadow-md border-l-4">
+                <pending-orders-table :orders="orders.pending" />
+              </div>
+              <div v-if="activeTab === 1" class="bg-white p-4 rounded-lg shadow-md border-l-4">
+                <confirmed-orders-table :orders="orders.confirmed" />
+              </div>
+              <div v-if="activeTab === 2" class="bg-white p-4 rounded-lg shadow-md border-l-4">
+                <cancelled-orders-table :orders="orders.cancelled" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-      const sidebar = document.querySelector("aside");
-      const maxSidebar = document.querySelector(".max")
-      const miniSidebar = document.querySelector(".mini")
-      const roundout = document.querySelector(".roundout")
-      const maxToolbar = document.querySelector(".max-toolbar")
-      const logo = document.querySelector('.logo')
-      const content = document.querySelector('.content')
-      const moon = document.querySelector(".moon")
-      const sun = document.querySelector(".sun")
-
-      function setDark(val){
-          if(val === "dark"){
-              document.documentElement.classList.add('dark')
-              moon.classList.add("hidden")
-              sun.classList.remove("hidden")
-          }else{
-              document.documentElement.classList.remove('dark')
-              sun.classList.add("hidden")
-              moon.classList.remove("hidden")
-          }
-      }
-
-      function openNav() {
-          if(sidebar.classList.contains('-translate-x-48')){
-              // max sidebar 
-              sidebar.classList.remove("-translate-x-48")
-              sidebar.classList.add("translate-x-none")
-              maxSidebar.classList.remove("hidden")
-              maxSidebar.classList.add("flex")
-              miniSidebar.classList.remove("flex")
-              miniSidebar.classList.add("hidden")
-              maxToolbar.classList.add("translate-x-0")
-              maxToolbar.classList.remove("translate-x-24","scale-x-0")
-              logo.classList.remove("ml-12")
-              content.classList.remove("ml-12")
-              content.classList.add("ml-12","md:ml-60")
-          }else{
-              // mini sidebar
-              sidebar.classList.add("-translate-x-48")
-              sidebar.classList.remove("translate-x-none")
-              maxSidebar.classList.add("hidden")
-              maxSidebar.classList.remove("flex")
-              miniSidebar.classList.add("flex")
-              miniSidebar.classList.remove("hidden")
-              maxToolbar.classList.add("translate-x-24","scale-x-0")
-              maxToolbar.classList.remove("translate-x-0")
-              logo.classList.add('ml-12')
-              content.classList.remove("ml-12","md:ml-60")
-              content.classList.add("ml-12")
-
-          }
-
-      }
-
 import axios from "axios";
-import PendingOrdersTable from '../components/PendingOrdersTable.vue';
+import PendingOrdersTable from "../components/PendingOrdersTable.vue";
+import ConfirmedOrdersTable from "../components/ConfirmedOrdersTable.vue";
+import CancelledOrdersTable from "../components/CancelledOrdersTable.vue";
+
 export default {
+  data() {
+    return {
+      activeTab: 0, // Default active tab
+      tabs: [
+        { title: "Pending Orders", color: "yellow" },
+        { title: "Confirmed Orders", color: "green" },
+        { title: "Cancelled Orders", color: "red" },
+      ],
+      orders: {
+        pending: [],
+        confirmed: [],
+        cancelled: [],
+      }, // Holds data for each order status
+    };
+  },
   components: {
     PendingOrdersTable,
+    ConfirmedOrdersTable,
+    CancelledOrdersTable,
+  },
+  methods: {
+    setActiveTab(index) {
+      this.activeTab = index;
+    },
+    async getOrders() {
+      try {
+        const response = await axios.get("http://localhost:8080/orders/");
+        const allOrders = response.data;
+        // Separate orders by status
+        this.orders.pending = allOrders.filter(order => order.status === "PENDING");
+        this.orders.confirmed = allOrders.filter(order => order.status === "CONFIRMED");
+        this.orders.cancelled = allOrders.filter(order => order.status === "CANCELLED");
+      } catch (error) {
+        console.error("Error fetching orders: ", error);
+      }
+    },
+  },
+  mounted() {
+    this.getOrders();
   },
 };
-  </script>
+</script>
 
 <style scoped>
 /* Tailwind setup */
@@ -156,16 +125,17 @@ export default {
 @tailwind components;
 @tailwind utilities;
 
-/* Sidebar Styles */
+.view {
+  padding: 20px 30px;
+  display: flex;
+  flex-direction: row;
+}
 
+/* Sidebar Styles */
 .tabs {
   padding-bottom: 10px;
   display: flex;
   flex-direction: column;
-}
-
-.display {
-  height: 100%;
 }
 
 .sidebar {
@@ -174,18 +144,11 @@ export default {
   padding: 20px;
   background-color: #fff;
   color: #0d1b2a;
-  --tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -2px rgba(0, 0, 0, .1);
-    --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
-    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-    margin: 20px 20px 0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  margin: 20px 20px 0;
 }
 
-.view {
-  height: 100%;
-  background-color: #fff;
-  display: flex;
-  flex-direction: row;
-}
+
 
 h2 {
   font-size: 25px;
@@ -228,7 +191,7 @@ h2 {
 }
 
 .line_current {
-  background-color: #7E99A3;
+  background-color: #7e99a3;
   height: 3px;
   width: 80px;
   align-self: center;
@@ -288,7 +251,7 @@ h2 {
 
 .line_hover {
   display: block;
-  background-color: #7E99A3;
+  background-color: #7e99a3;
   height: 3px;
   opacity: 0;
   transform: scaleX(0);
@@ -324,7 +287,6 @@ h2 {
   margin-right: 10px;
 }
 
-/* Content Styling */
 .content {
   flex: 1;
   background-color: white;
@@ -348,5 +310,4 @@ h2 {
   color: white;
   flex-direction: row;
 }
-
 </style>
