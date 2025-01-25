@@ -34,7 +34,7 @@
           <tbody>
             <tr v-for="item in filteredData" :key="item.code">
               <td>{{ item.code }}</td>
-              <td>{{ item.name }}</td>
+              <td style="text-align: left;">{{ item.name }}</td>
               <td>{{ item.quantity }}</td>
               <td>{{ item.min_quantity }}</td>
               <td>{{ formatPrice(item.price) }}</td>
@@ -94,7 +94,7 @@ export default {
   methods: {
     async fetchWarehouseProducts() {
       try {
-        const warehouseId = 1; 
+        const warehouseId = 2; 
         const response = await axios.get(`http://localhost:8080/products/warehouse/${warehouseId}`);
         this.data = response.data.map(product => ({
           code: product.productCode,

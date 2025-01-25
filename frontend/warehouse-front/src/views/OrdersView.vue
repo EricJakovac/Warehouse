@@ -32,7 +32,7 @@
       <div class="display">
         <div class="view">
           <!-- Tabs -->
-          <div class="sidebar">
+          <div class="sidebar h-full">
             <div class="tabs">
               <button
                 v-for="(tab, index) in tabs"
@@ -40,7 +40,7 @@
                 @click="setActiveTab(index)"
                 :class="[
                   'tab',
-                  activeTab === index ? 'bg-[#0d1b2a] text-white' : 'bg-white text-gray-500 hover:bg-blue-100 hover:text-[#0d1b2a]',
+                  activeTab === index ? 'bg-white text-[#0d1b2a]' : 'bg-white text-gray-500 hover:bg-blue-100 hover:text-[#0d1b2a]',
                 ]"
               >
                 <v-icon name="bi-circle-half" class="icon-side" :style="{ color: tab.color }" />
@@ -50,15 +50,15 @@
           </div>
 
           <div class="p-4" style="width: 100%;">
-            <div class="transition-all duration-300" style="padding-top: 20px;">
+            <div class="transition-all duration-300">
               <!-- Display list -->
-              <div v-if="activeTab === 0" class="bg-white p-4 rounded-lg shadow-md border-l-4">
+              <div v-if="activeTab === 0">
                 <pending-orders-table :orders="orders.pending" />
               </div>
-              <div v-if="activeTab === 1" class="bg-white p-4 rounded-lg shadow-md border-l-4">
+              <div v-if="activeTab === 1">
                 <confirmed-orders-table :orders="orders.confirmed" />
               </div>
-              <div v-if="activeTab === 2" class="bg-white p-4 rounded-lg shadow-md border-l-4">
+              <div v-if="activeTab === 2">
                 <cancelled-orders-table :orders="orders.cancelled" />
               </div>
             </div>
@@ -139,6 +139,7 @@ export default {
 }
 
 .sidebar {
+  border-radius: 5px;
   height: 90%;
   min-width: 300px;
   padding: 20px;
@@ -282,9 +283,9 @@ h2 {
 }
 
 .icon-side {
-  width: 14px;
+  width: 22px;
   height: 24px;
-  margin-right: 10px;
+  margin-right: 20px;
 }
 
 .content {
@@ -309,5 +310,12 @@ h2 {
   padding: 10px 20px;
   color: white;
   flex-direction: row;
+}
+
+button {
+  display: flex;
+  flex-wrap: wrap-reverse;
+  align-content: center;
+  margin: 10px;
 }
 </style>

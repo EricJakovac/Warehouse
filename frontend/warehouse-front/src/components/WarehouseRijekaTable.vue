@@ -34,7 +34,7 @@
           <tbody>
             <tr v-for="item in filteredData" :key="item.code">
               <td>{{ item.code }}</td>
-              <td>{{ item.name }}</td>
+              <td style="text-align: left;">{{ item.name }}</td>
               <td>{{ item.quantity }}</td>
               <td>{{ item.min_quantity }}</td>
               <td>{{ formatPrice(item.price) }}</td>
