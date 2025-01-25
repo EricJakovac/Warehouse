@@ -84,10 +84,10 @@ import axios from "axios";
 
 export default {
   props: {
-    orders:{
+    orders: {
       type: Array,
       required: true,
-    }
+    },
   },
   data() {
     return {
@@ -98,30 +98,44 @@ export default {
     filteredData() {
       // Filter data based on searchQuery
       const query = this.searchQuery.toLowerCase();
-      return this.orders.filter(order => {
+      return this.orders.filter((order) => {
         const orderId = order.orderId.toString();
         const orderDate = String(order.orderDate).toLowerCase();
         const status = order.status.toLowerCase();
-        return(
+        return (
           orderId.includes(query) ||
           orderDate.includes(query) ||
           status.includes(query) ||
-          order.orderItems.some(item =>
-            item.productCode.toLowerCase().includes(query) || 
+          order.orderItems.some((item) =>
+            item.productCode.toLowerCase().includes(query) ||
             item.productName.toLowerCase().includes(query)
           )
-      );
-    });
+        );
+      });
     },
   },
   methods: {
     formatDate(date) {
-      const options = { year: 'numeric', month: 'numeric', day: 'numeric'};
+      const options = { year: "numeric", month: "numeric", day: "numeric" };
       return new Date(date).toLocaleDateString(undefined, options);
     },
-    updateOrderStatus(order, newStatus) {
-      order.status = newStatus;
-    }
+    async updateOrderStatus(order, newStatus) {
+      try {
+        const endpoint =
+          newStatus === "CONFIRMED"
+            ? `/orders/${order.orderId}/confirm`
+            : `/orders/${order.orderId}/cancel`;
+        const response = await axios.put(endpoint, {status: newStatus});
+        if (response.status === 200) {
+          const index = this.orders.findIndex((o) => o.orderId === order.orderId);
+          if (index !== -1) {
+            this.orders.splice(index, 1); // Remove the order
+          }
+        }
+      } catch (error) {
+        console.error("Error updating order status: ", error);
+      }
+    },
   },
 };
 </script>

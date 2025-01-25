@@ -111,6 +111,12 @@ export default {
       }
     },
 
+    beforeRouteUpdate(to, from, next) {
+      if (from.name === 'EditProduct') {
+        this.fetchWarehouseProducts();
+      } next();
+    },
+
     formatPrice(price) {
       return`${parseFloat(price).toFixed(2)} €`;
     },

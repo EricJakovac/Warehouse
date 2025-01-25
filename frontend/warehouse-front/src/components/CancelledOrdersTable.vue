@@ -53,6 +53,7 @@
               </div>
               <div style="width: 30%; display: flex; flex-direction: row; justify-content: end;">
                 <button
+                    @click="repeatOrder(order)"
                     class="middle none center mr-3 rounded-lg bg-gradient-to-tr from-[#1b263b] to-[#1b263b] py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-500/20 transition-all hover:shadow-lg hover:shadow-gray-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                     data-ripple-light="true"
                     style="height: 50px;">
@@ -112,6 +113,20 @@ export default {
       const options = { year: 'numeric', month: 'numeric', day: 'numeric'};
       return new Date(date).toLocaleDateString(undefined, options);
     },
+    async repeatOrder (order) {
+      try {
+        const endpoint = `/orders/${order.orderId}/reorder`;
+        const response = await axios.put(endpoint, { status: "PENDING" });
+        if (response.status === 200) {
+          const index = this.orders.findIndex(o=> o.orderId === order.orderId);
+          if (index !== -1) {
+            this.orders[index].status = "PENDING";
+          }
+        }
+      } catch(error) {
+        console.error("Error repeating order: ", error);
+      }
+    }
   },
 };
 </script>

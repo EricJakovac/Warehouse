@@ -50,19 +50,25 @@
           </div>
 
           <div class="p-4" style="width: 100%;">
-            <div class="transition-all duration-300">
-              <!-- Display list -->
-              <div v-if="activeTab === 0">
-                <pending-orders-table :orders="orders.pending" />
-              </div>
-              <div v-if="activeTab === 1">
-                <confirmed-orders-table :orders="orders.confirmed" />
-              </div>
-              <div v-if="activeTab === 2">
-                <cancelled-orders-table :orders="orders.canceled" />
+            <div v-if="isLoading">
+              Loading...
+            </div>
+            <div v-else>
+              <div class="transition-all duration-300">
+                <!-- Display list -->
+                <div v-if="activeTab === 0">
+                  <pending-orders-table :orders="orders.pending" @order-updated="getOrders" />
+                </div>
+                <div v-if="activeTab === 1">
+                  <confirmed-orders-table :orders="orders.confirmed" @order-updated="getOrders" />
+                </div>
+                <div v-if="activeTab === 2">
+                  <cancelled-orders-table :orders="orders.canceled" @order-updated="getOrders" />
+                </div>
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>
@@ -101,6 +107,7 @@ export default {
       this.activeTab = index;
     },
     async getOrders() {
+      this.isLoading = true;
       try {
         const response = await axios.get("http://localhost:8080/orders/");
         const allOrders = response.data;
@@ -110,9 +117,16 @@ export default {
         this.orders.canceled = allOrders.filter(order => order.status === "CANCELED");
       } catch (error) {
         console.error("Error fetching orders: ", error);
+      } finally {
+        this.isLoading = false;
       }
     },
   },
+  beforeRouteUpdate (to, from, next) {
+      if (from.name === "OrderPage") {
+        this.getOrders();
+      } next();
+    },
   mounted() {
     this.getOrders();
   },
