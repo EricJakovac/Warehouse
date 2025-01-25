@@ -2,7 +2,7 @@
   <div>
     <!--Title-->
     <div class="title">
-      <h1>Pending orders</h1>
+      <h1>Pending Orders</h1>
     </div>
     <!-- Progress Bar Component -->
     <div class="w-full space-y-2">
@@ -13,6 +13,9 @@
       <div class="w-full bg-stone-200 block rounded-full overflow-hidden h-4" style="margin-top: unset; margin-bottom: 20px;">
         <div class="h-full rounded-none animated-bar" style="width:50%; background-color: yellow;"></div>
       </div>
+    </div>
+    <div style="padding-bottom: 20px;">
+      <span class="font-semibold title-font text-gray-700" style="font-size: 20px;">Total orders: {{ filteredData.length }}</span>
     </div>
 
     <!-- Search Input -->
@@ -37,26 +40,29 @@
               </div>
               <div class="md:flex-grow" style="padding-top: 10px; display: flex; flex-direction: row;">
                 <div style="width: 70%; display: flex ;flex-direction: column;">
-                <h3 class="font-semibold title-font text-gray-700" style="text-align: left;">Order Items:</h3>
+                <h3 class="font-semibold title-font text-gray-700" style="text-align: left; padding-bottom: 8px; font-size: 20px;">Order Items:</h3>
                 <ul>
                   <li 
                     v-for="item in order.orderItems" 
                     :key="item.orderItemId"
                     style="text-align: left;">
-                    {{ item.productCode }}, {{ item.productName }} - Quantity: {{ item.quantity }}
+                    {{ item.productCode }}, {{ item.productName }} <br><strong>Quantity:</strong> {{ item.quantity }}
                   </li>
                 </ul>
               </div>
               <div style="width: 30%; display: flex; flex-direction: row; justify-content: end;">
                 <button
+                    @click="updateOrderStatus(order,  'CONFIRMED')"
                     class="middle none center mr-3 rounded-lg bg-gradient-to-tr from-[#1b263b] to-[#1b263b] py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-500/20 transition-all hover:shadow-lg hover:shadow-gray-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                    data-ripple-light="true">
+                    data-ripple-light="true"
+                    style="height: 50px;">
                     Accept
                 </button>
                 <button
+                    @click="updateOrderStatus(order, 'CANCELED')"
                     class="middle none center mr-3 rounded-lg border border-[#1b263b] py-3 px-6 font-sans text-xs font-bold uppercase text-[#1b263b] transition-all hover:opacity-75 focus:ring focus:ring-gray-200 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                     data-ripple-dark="true"
-                    style="margin-right: 0px;">
+                    style="margin-right: 0px; height: 50px;">
                     Decline
                 </button>
               </div>
@@ -113,6 +119,9 @@ export default {
       const options = { year: 'numeric', month: 'numeric', day: 'numeric'};
       return new Date(date).toLocaleDateString(undefined, options);
     },
+    updateOrderStatus(order, newStatus) {
+      order.status = newStatus;
+    }
   },
 };
 </script>

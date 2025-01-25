@@ -59,7 +59,7 @@
                 <confirmed-orders-table :orders="orders.confirmed" />
               </div>
               <div v-if="activeTab === 2">
-                <cancelled-orders-table :orders="orders.cancelled" />
+                <cancelled-orders-table :orders="orders.canceled" />
               </div>
             </div>
           </div>
@@ -87,7 +87,7 @@ export default {
       orders: {
         pending: [],
         confirmed: [],
-        cancelled: [],
+        canceled: [],
       }, // Holds data for each order status
     };
   },
@@ -107,7 +107,7 @@ export default {
         // Separate orders by status
         this.orders.pending = allOrders.filter(order => order.status === "PENDING");
         this.orders.confirmed = allOrders.filter(order => order.status === "CONFIRMED");
-        this.orders.cancelled = allOrders.filter(order => order.status === "CANCELLED");
+        this.orders.canceled = allOrders.filter(order => order.status === "CANCELED");
       } catch (error) {
         console.error("Error fetching orders: ", error);
       }
