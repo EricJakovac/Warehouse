@@ -2,6 +2,7 @@ package com.backend.warehouse.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -28,5 +29,11 @@ public class OrderItem {
     @JoinColumn(name = "productCode", referencedColumnName = "product_code")
     @JsonIgnore
     private Product product;
+
+    @Transient
+    @JsonProperty("productName")
+    public String getProductName() {
+        return product != null ? product.getProductName() : null;
+    }
     
 }

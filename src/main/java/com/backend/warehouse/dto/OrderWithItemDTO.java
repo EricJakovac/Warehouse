@@ -12,5 +12,6 @@ public class OrderWithItemDTO {
     private String status;
     private Long orderItemId;
     private String productCode;
+    private String productName;
     private Integer quantity;
 }
