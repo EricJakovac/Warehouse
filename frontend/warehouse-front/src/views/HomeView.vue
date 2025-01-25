@@ -17,10 +17,10 @@
                   <div class="line_current"></div>
               </router-link>
 
-              <router-link to="/warehouses" style="display: flex; flex-direction: column;">
+              <router-link to="/orders" style="display: flex; flex-direction: column;">
                   <div class="nav_link">
                       <v-icon name="bi-box-seam" class="icon" />
-                      <h3>Warehouse Management</h3>
+                      <h3>Orders</h3>
                   </div>
                   <div class="line_hover"></div>
               </router-link>
@@ -33,7 +33,7 @@
       <!--Button Add-->
           <div class="flex" style="align-self: self-end; padding: 10px 0; padding-right: 10px;">
           <button
-              class="middle none center mr-3 rounded-lg bg-gradient-to-tr from-[#7E99A3] to-[#7E99A3] py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-500/20 transition-all hover:shadow-lg hover:shadow-gray-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              class="middle none center mr-3 rounded-lg bg-gradient-to-tr from-[#1b263b] to-[#1b263b] py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-500/20 transition-all hover:shadow-lg hover:shadow-gray-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               @click="$router.push({path: '/add-new-product'})"
               data-ripple-light="true">
               Add new product

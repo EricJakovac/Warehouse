@@ -1,10 +1,10 @@
 package com.backend.warehouse.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
-import org.hibernate.annotations.*;
 
 import java.time.LocalDate;
 
@@ -12,12 +12,11 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//Postavljeni indeksi za fazu Automatizaciju narudžbi robe
-/*@Table(
+@Table(
         indexes = {
-                @Index(name = "indexWarehouseId", columnList = "warehouseId"),
-                @Index(name = "indexProductQuantity", columnList = "productQuantity")
-        })*/
+                @Index(name = "indexProductQuantityMinimum", columnList = "product_code, product_quantity, product_min_quantity")
+        }
+)
 public class Product {
 
     @Id
@@ -28,6 +27,7 @@ public class Product {
     private String productName;
 
     @NotBlank(message = "Šifra proizvoda je obavezna.")
+    @Column(name = "product_code", unique = true)
     private String productCode;
 
     @NotNull(message = "Količina proizvoda je obavezna.")
@@ -53,75 +53,4 @@ public class Product {
     @JsonBackReference
     private Warehouse warehouse;
 
-    public Long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public String getProductCode() {
-        return productCode;
-    }
-
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
-    }
-
-    public Integer getProductQuantity() {
-        return productQuantity;
-    }
-
-    public void setProductQuantity(Integer productQuantity) {
-        this.productQuantity = productQuantity;
-    }
-
-    public Integer getProductMinQuantity() {
-        return productMinQuantity;
-    }
-
-    public void setProductMinQuantity(Integer productMinQuantity) {
-        this.productMinQuantity = productMinQuantity;
-    }
-
-    public Double getProductPrice() {
-        return productPrice;
-    }
-
-    public void setProductPrice(Double productPrice) {
-        this.productPrice = productPrice;
-    }
-
-    public LocalDate getProductArriveDate() {
-        return productArriveDate;
-    }
-
-    public void setProductArriveDate(LocalDate productArriveDate) {
-        this.productArriveDate = productArriveDate;
-    }
-
-    public LocalDate getProductDepartureDate() {
-        return productDepartureDate;
-    }
-
-    public void setProductDepartureDate(LocalDate productDepartureDate) {
-        this.productDepartureDate = productDepartureDate;
-    }
-
-    public Warehouse getWarehouse() {
-        return warehouse;
-    }
-
-    public void setWarehouse(Warehouse warehouse) {
-        this.warehouse = warehouse;
-    }
 }
