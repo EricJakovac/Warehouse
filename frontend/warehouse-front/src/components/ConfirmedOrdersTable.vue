@@ -25,7 +25,7 @@
     </div>
 
     <!--Orders tab-->
-    <div v-if="filteredData.length" class="orders-list overflow-y-auto" style="height: 340px;">
+    <div v-if="filteredData.length" class="orders-list overflow-y-auto" style="height: 290px;">
       <div 
         class="bg-white p-4 rounded-lg shadow-md border-l-4" 
         v-for="order in filteredData" 
@@ -37,7 +37,14 @@
                 class="" 
                 style="display: flex; justify-content: space-between; flex-direction: row; border-bottom: lightgray solid 2px; padding-bottom: 10px; text-align: left;">
                 <span class="font-semibold title-font text-gray-700" style="font-size: 20px;">Order ID: {{ order.orderId }}</span>
-                <span class="font-semibold title-font text-gray-700" style="font-size: 20px;">{{ formatDate(order.orderDate) }}</span>
+                <div style="display:  flex; flex-direction: column; justify-content: end;">
+                  <span class="font-semibold title-font text-gray-700" style="font-size: 15px; display: flex; justify-content: end;">{{ formatDate(order.orderDate) }}</span>
+                  <span class="font-semibold title-font text-gray-700" style="font-size: 15px;">
+                    <span v-if="order.warehouseId === 1"> Warehouse Rijeka</span>
+                    <span v-else-if="order.warehouseId === 2"> Warehouse Zagreb</span>
+                    <span v-else> Unknown Warehouse</span>
+                  </span>
+                </div>
               </div>
               <div class="md:flex-grow" style="padding-top: 10px; display: flex; flex-direction: row;">
                 <div style="width: 100%; display: flex ;flex-direction: column;">
@@ -93,7 +100,8 @@ export default {
           status.includes(query) ||
           order.orderItems.some(item =>
             item.productCode.toLowerCase().includes(query) || 
-            item.productName.toLowerCase().includes(query)
+            item.productName.toLowerCase().includes(query) ||
+            item.warehouseId
           )
       );
     });

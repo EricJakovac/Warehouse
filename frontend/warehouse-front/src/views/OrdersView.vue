@@ -4,7 +4,7 @@
       <div class="header" style="height: auto; display: inherit;">
         <div class="sidebar-header">
           <router-link to="/">
-            <h2>Admin Dashboard</h2>
+            <h2>Warehouse Management</h2>
           </router-link>
         </div>
 
@@ -57,7 +57,7 @@
               <div class="transition-all duration-300">
                 <!-- Display list -->
                 <div v-if="activeTab === 0">
-                  <pending-orders-table :orders="orders.pending" @order-updated="getOrders" />
+                  <pending-orders-table :orders="orders.pending" @order-updated="getOrders"/>
                 </div>
                 <div v-if="activeTab === 1">
                   <confirmed-orders-table :orders="orders.confirmed" @order-updated="getOrders" />
@@ -84,6 +84,7 @@ import CancelledOrdersTable from "../components/CancelledOrdersTable.vue";
 export default {
   data() {
     return {
+      isLoading: false,
       activeTab: 0, // Default active tab
       tabs: [
         { title: "Pending Orders", color: "yellow" },
@@ -104,7 +105,13 @@ export default {
   },
   methods: {
     setActiveTab(index) {
+      this.orders = {
+        pending: [],
+        confirmed: [],
+        canceled: [],
+      };
       this.activeTab = index;
+      this.getOrders();
     },
     async getOrders() {
       this.isLoading = true;

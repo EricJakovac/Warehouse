@@ -5,7 +5,7 @@
       <div class="header" style="height: auto; display: inherit;">
         <div class="sidebar-header">
           <router-link to="/">
-            <h2>Admin Dashboard</h2>
+            <h2>Warehouse Management</h2>
           </router-link>
         </div>
 
