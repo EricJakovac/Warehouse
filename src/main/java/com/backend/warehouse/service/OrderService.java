@@ -96,9 +96,18 @@ public class OrderService {
         Map<Long, OrderDTO> orderMap = new HashMap<>();
         for (OrderWithItemDTO item : rawData) {
             orderMap.computeIfAbsent(item.getOrderId(), orderId ->
-                    new OrderDTO(item.getOrderId(), item.getOrderDate(), item.getStatus(), new ArrayList<>())
-            ).getOrderItems().add(new OrderItemDTO(item.getOrderItemId(), item.getProductCode(), item.getProductName(), item.getQuantity()));
+                    new OrderDTO(item.getOrderId(), item.getOrderDate(), item.getStatus(), item.getWarehouseId(), new ArrayList<>())
+            ).getOrderItems().add(
+                    new OrderItemDTO(
+                            item.getOrderItemId(),
+                            item.getProductCode(),
+                            item.getProductName(),
+                            item.getQuantity()
+                    )
+            );
         }
         return new ArrayList<>(orderMap.values());
     }
+
+
 }

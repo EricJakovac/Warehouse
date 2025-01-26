@@ -46,8 +46,12 @@ public class ProductController {
     }
 
     @PutMapping("/{productCode}")
-    public Product updateProduct(@PathVariable @Pattern(regexp = "^[0-9]{6}$") String productCode, @RequestBody Product product) {
-        return productService.updateProduct(productCode, product);
+    public ProductDTO updateProduct(
+            @PathVariable @Pattern(regexp = "^[0-9]{6}$") String productCode,
+            @RequestBody ProductDTO productDTO) {
+
+        Product updatedProduct = productService.updateProduct(productCode, ProductDTO.toEntity(productDTO), productDTO.getWarehouseId());
+        return ProductDTO.fromEntity(updatedProduct);
     }
 
     @DeleteMapping("/{productCode}")
