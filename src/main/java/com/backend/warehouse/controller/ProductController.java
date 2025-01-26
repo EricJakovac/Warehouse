@@ -27,8 +27,9 @@ public class ProductController {
     }
 
     @GetMapping("/{productCode}")
-    public Product getProductByProductCode(@PathVariable String productCode) {
-        return productService.getProductByProductCode(productCode);
+    public ProductDTO getProductByProductCode(@PathVariable String productCode) {
+        Product product = productService.getProductByProductCode(productCode);
+        return ProductDTO.fromEntity(product);
     }
 
     @PostMapping
