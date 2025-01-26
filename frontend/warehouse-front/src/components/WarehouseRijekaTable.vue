@@ -34,23 +34,25 @@
           <tbody>
             <tr v-for="item in filteredData" :key="item.code">
               <td>{{ item.code }}</td>
-              <td>{{ item.name }}</td>
+              <td style="text-align: left;">{{ item.name }}</td>
               <td>{{ item.quantity }}</td>
               <td>{{ item.min_quantity }}</td>
               <td>{{ formatPrice(item.price) }}</td>
               <td>{{ formatDate(item.arrive_date) }}</td>
               <td>{{ formatDate(item.departure_date) }}</td>
               <!--Actions-->
-              <button class="edit_btn" @click="editProduct(item)" style="width: 50%;">
-                <div style="border-radius: 100px; background-color: #1b263b; color: #ffffff; width: 24px;">
-                <v-icon name="md-modeeditoutline" class="icon" style="width: 15px;"/>
-                </div>
-              </button>
-              <button class="delete_btn" @click="deleteProduct(item)" style="width: 50%;">
-                <div style="border-radius: 100px; background-color: #1b263b; color: #ffffff; width: 24px;">
-                  <v-icon name="ri-delete-bin-7-fill" class="icon" style="width: 13px;"/>
-                </div>
-              </button>
+              <td style="height: 100%; min-width: 80px;">
+                <button class="edit_btn" @click="editProduct(item)" style="width: 50%;">
+                  <div style="border-radius: 100px; background-color: #1b263b; color: #ffffff; width: 24px;">
+                  <v-icon name="md-modeeditoutline" class="icon" style="width: 15px;"/>
+                  </div>
+                </button>
+                <button class="delete_btn" @click="deleteProduct(item)" style="width: 50%;">
+                  <div style="border-radius: 100px; background-color: #1b263b; color: #ffffff; width: 24px;">
+                    <v-icon name="ri-delete-bin-7-fill" class="icon" style="width: 13px;"/>
+                  </div>
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -109,6 +111,12 @@ export default {
       } catch(error) {
         console.error("Error fetching products:", error);
       }
+    },
+
+    beforeRouteUpdate(to, from, next) {
+      if (from.name === 'EditProduct') {
+        this.fetchWarehouseProducts();
+      } next();
     },
 
     formatPrice(price) {

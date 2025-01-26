@@ -3,9 +3,11 @@
 
       <div class="content">
       <div class="header" style="height: auto; display: inherit;">
-          <div class="sidebar-header">
-              <h2>Admin Dashboard</h2>
-          </div>
+        <div class="sidebar-header">
+          <router-link to="/">
+            <h2>Warehouse Management</h2>
+          </router-link>
+        </div>
 
           <!--Navbar-->
           <div class="navbar">
@@ -17,7 +19,7 @@
                   <div class="line_current"></div>
               </router-link>
 
-              <router-link to="/orders" style="display: flex; flex-direction: column;">
+              <router-link to="/orders/" style="display: flex; flex-direction: column;">
                   <div class="nav_link">
                       <v-icon name="bi-box-seam" class="icon" />
                       <h3>Orders</h3>
@@ -37,11 +39,6 @@
               @click="$router.push({path: '/add-new-product'})"
               data-ripple-light="true">
               Add new product
-          </button>
-          <button
-              class="middle none center mr-3 rounded-lg border border-[#1b263b] py-3 px-6 font-sans text-xs font-bold uppercase text-[#1b263b] transition-all hover:opacity-75 focus:ring focus:ring-gray-200 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-              data-ripple-dark="true">
-              Secondary button
           </button>
           </div>
           

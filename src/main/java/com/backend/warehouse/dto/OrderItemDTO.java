@@ -7,5 +7,6 @@ import lombok.*;
 public class OrderItemDTO {
     private Long orderItemId;
     private String productCode;
+    private String productName;
     private Integer quantity;
 }

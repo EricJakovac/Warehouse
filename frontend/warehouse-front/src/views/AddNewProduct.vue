@@ -3,7 +3,9 @@
     <div class="content">
       <div class="header" style="height: auto; display: inherit;">
         <div class="sidebar-header">
-          <h2>Admin Dashboard</h2>
+          <router-link to="/">
+            <h2>Warehouse Management</h2>
+          </router-link>
         </div>
 
         <!--Navbar-->
@@ -163,7 +165,7 @@
                           </label>
                           <input
                             v-model="product.productArriveDate"
-                            type="datetime-local"
+                            type="date"
                             id="productArriveDate"
                             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#0d1b2a] focus:shadow-md"
                           />
@@ -178,7 +180,7 @@
                           </label>
                           <input
                             v-model="product.productDepartureDate"
-                            type="datetime-local"
+                            type="date"
                             id="productDepartureDate"
                             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#0d1b2a] focus:shadow-md"
                           />

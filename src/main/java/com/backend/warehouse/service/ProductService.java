@@ -45,17 +45,22 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product updateProduct(String productCode, @NotNull Product productDetails) {
+    public Product updateProduct(String productCode, @NotNull Product productDetails, Long warehouseId) {
         Product product = productRepository.findByProductCode(productCode)
                 .orElseThrow(() -> new RuntimeException("Proizvod nije pronađen"));
 
         product.setProductName(Objects.requireNonNull(productDetails).getProductName());
-        product.setProductCode(Objects.requireNonNull(productDetails).getProductCode());
         product.setProductQuantity(Objects.requireNonNull(productDetails).getProductQuantity());
         product.setProductMinQuantity(Objects.requireNonNull(productDetails).getProductMinQuantity());
         product.setProductPrice(Objects.requireNonNull(productDetails).getProductPrice());
         product.setProductArriveDate(Objects.requireNonNull(productDetails).getProductArriveDate());
         product.setProductDepartureDate(Objects.requireNonNull(productDetails).getProductDepartureDate());
+
+        if (warehouseId != null) {
+            Warehouse warehouse = warehouseRepository.findById(warehouseId)
+                    .orElseThrow(() -> new RuntimeException("Warehouse not found with ID: " + warehouseId));
+            product.setWarehouse(warehouse);
+        }
 
         Product savedProduct = productRepository.save(product);
 
@@ -63,6 +68,7 @@ public class ProductService {
 
         return savedProduct;
     }
+
 
 
     public Product updateProductQuantity(String productCode, int newQuantity) {

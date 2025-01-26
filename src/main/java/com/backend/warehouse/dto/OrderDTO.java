@@ -13,5 +13,6 @@ public class OrderDTO {
     private Long orderId;
     private LocalDate orderDate;
     private String status;
+    private Long warehouseId;
     private List<OrderItemDTO> orderItems;
 }

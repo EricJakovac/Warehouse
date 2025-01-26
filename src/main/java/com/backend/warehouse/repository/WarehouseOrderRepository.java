@@ -13,7 +13,8 @@ public interface WarehouseOrderRepository extends JpaRepository<WarehouseOrder, 
 
     @Query("SELECT new com.backend.warehouse.dto.OrderWithItemDTO(" +
             "wo.orderId, wo.orderDate, wo.status, " +
-            "oi.orderItemId, oi.product.productCode, oi.quantity) " +
+            "wo.warehouse.warehouseId, " +
+            "oi.orderItemId, oi.product.productCode, oi.product.productName, oi.quantity) " +
             "FROM WarehouseOrder wo " +
             "JOIN wo.orderItems oi " +
             "WHERE wo.warehouse.warehouseId = :warehouseId")
@@ -21,9 +22,11 @@ public interface WarehouseOrderRepository extends JpaRepository<WarehouseOrder, 
 
     @Query("SELECT new com.backend.warehouse.dto.OrderWithItemDTO(" +
             "wo.orderId, wo.orderDate, wo.status, " +
-            "oi.orderItemId, oi.product.productCode, oi.quantity) " +
+            "wo.warehouse.warehouseId, " +
+            "oi.orderItemId, oi.product.productCode, oi.product.productName, oi.quantity) " +
             "FROM WarehouseOrder wo " +
             "JOIN wo.orderItems oi")
     List<OrderWithItemDTO> findOrdersWithItems();
+
 
 }

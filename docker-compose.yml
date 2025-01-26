@@ -1,40 +1,28 @@
 services:
   backend:
-    build: .
+    image: ericjakovac/warehouse-backend:1.2
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://aws-0-eu-central-2.pooler.supabase.com:5432/postgres?user=postgres.ltnadadrqhwenjlzdvqc&password=password
+      SPRING_DATASOURCE_URL: jdbc:postgresql://aws-0-eu-central-2.pooler.supabase.com:6543/postgres?user=postgres.ltnadadrqhwenjlzdvqc&password=password
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
     expose:
       - "8080"
     networks:
       - warehouse-network
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
 
-  frontend:
-    build: ./frontend
-    depends_on:
-      - backend
-    volumes:
-      - frontend-build:/usr/share/nginx/html
-    networks:
-      - warehouse-network
-
-  nginx:
-    image: nginx:alpine
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - frontend-build:/usr/share/nginx/html
+  frontend-nginx:
+    image: ericjakovac/warehouse-frontend-nginx:1.2
     ports:
       - "8080:80"
     depends_on:
-      - frontend
       - backend
     networks:
       - warehouse-network
 
-volumes:
-  frontend-build: {}
-
 networks:
   warehouse-network:
-    driver: bridge
+    driver: overlay

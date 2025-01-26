@@ -2,18 +2,19 @@
   <div>
     <!--Title-->
     <div class="title">
-      <h1>Pending Orders</h1>
+      <h1>Cancelled Orders</h1>
     </div>
     <!-- Progress Bar Component -->
     <div class="w-full space-y-2">
       <p class="font-sans antialiased text-base text-stone-800 dark:text-white flex items-center justify-between font-semibold">
         <span>Completed</span>
-        <span>50%</span>
+        <span>10%</span>
       </p>
       <div class="w-full bg-stone-200 block rounded-full overflow-hidden h-4" style="margin-top: unset; margin-bottom: 20px;">
-        <div class="h-full rounded-none animated-bar" style="width:50%; background-color: yellow;"></div>
+        <div class="h-full rounded-none animated-bar" style="width:10%; background-color: red;"></div>
       </div>
     </div>
+
     <div style="padding-bottom: 20px;">
       <span class="font-semibold title-font text-gray-700" style="font-size: 20px;">Total orders: {{ filteredData.length }}</span>
     </div>
@@ -69,18 +70,11 @@
               </div>
               <div style="width: 30%; display: flex; flex-direction: row; justify-content: end;">
                 <button
-                    @click="updateOrderStatusConfirmed(order)"
+                    @click="updateOrderStatus(order)"
                     class="middle none center mr-3 rounded-lg bg-gradient-to-tr from-[#1b263b] to-[#1b263b] py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-500/20 transition-all hover:shadow-lg hover:shadow-gray-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                     data-ripple-light="true"
-                    style="height: 50px;">
-                    Accept
-                </button>
-                <button
-                    @click="updateOrderStatusCanceled(order)"
-                    class="middle none center mr-3 rounded-lg border border-[#1b263b] py-3 px-6 font-sans text-xs font-bold uppercase text-[#1b263b] transition-all hover:opacity-75 focus:ring focus:ring-gray-200 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                    data-ripple-dark="true"
-                    style="margin-right: 0px; height: 50px;">
-                    Decline
+                    style="height: 50px; margin-right: 0px;">
+                    Repeat order
                 </button>
               </div>
               </div>
@@ -101,10 +95,10 @@ import axios from "axios";
 
 export default {
   props: {
-    orders: {
+    orders:{
       type: Array,
       required: true,
-    },
+    }
   },
   data() {
     return {
@@ -118,21 +112,21 @@ export default {
     filteredData() {
       // Filter data based on searchQuery
       const query = this.searchQuery.toLowerCase();
-      return this.orders.filter((order) => {
+      return this.orders.filter(order => {
         const orderId = order.orderId.toString();
         const orderDate = String(order.orderDate).toLowerCase();
         const status = order.status.toLowerCase();
-        return (
+        return(
           orderId.includes(query) ||
           orderDate.includes(query) ||
           status.includes(query) ||
-          order.orderItems.some((item) =>
-            item.productCode.toLowerCase().includes(query) ||
-            item.productName.toLowerCase().includes(query) || 
+          order.orderItems.some(item =>
+            item.productCode.toLowerCase().includes(query) || 
+            item.productName.toLowerCase().includes(query) ||
             item.warehouseId
           )
-        );
-      });
+      );
+    });
     },
     alertClass() {
       return {
@@ -145,20 +139,19 @@ export default {
   },
   methods: {
     formatDate(date) {
-      const options = { year: "numeric", month: "numeric", day: "numeric" };
+      const options = { year: 'numeric', month: 'numeric', day: 'numeric'};
       return new Date(date).toLocaleDateString(undefined, options);
     },
-    async updateOrderStatusConfirmed(order) {
-      try {
-        // Trigger the confirm endpoint
-    const endpoint = `/orders/${order.orderId}/confirm`;
+    async updateOrderStatus(order) {
+  try {
+    // Trigger the reorder endpoint
+    const endpoint = `/orders/${order.orderId}/reorder`;
     const response = await axios.put(endpoint);
     
-    // If the response is successful, update the confirm status
+    // If the response is successful, update the order status
     if (response.status === 200) {
-      order.status = "CONFIRMED"; // Set the status to "PENDING"
-      this.setAlert ("Order has been successfully confirmed!",  "success", "Success!");
-
+      order.status = "PENDING"; // Set the status to "PENDING"
+      this.setAlert ("Order has been successfully reordered!",  "success", "Success!");
        // Remove the order from the list
       const index = this.orders.findIndex((o) => o.orderId === order.orderId);
       if (index !== -1) {
@@ -166,33 +159,11 @@ export default {
       }
     }
   } catch (error) {
-    console.error("Error confirming order: ", error);
-    this.setAlert("There was an issue confirming the order. Please check the order status and try again.", "danger", "Error!")
+    console.error("Error repeating order: ", error);
+    this.setAlert("There was an issue reordering the order. Please check the order status and try again.", "danger", "Error!")
   }
-    },
-    async updateOrderStatusCanceled(order) {
-      try {
-        // Trigger the cancel endpoint
-    const endpoint = `/orders/${order.orderId}/cancel`;
-    const response = await axios.put(endpoint);
-    
-    // If the response is successful, update the cancel status
-    if (response.status === 200) {
-      order.status = "CANCELED"; // Set the status to "PENDING"
-      this.setAlert ("Order has been successfully cancelled!",  "success", "Success!");
-
-       // Remove the order from the list
-       const index = this.orders.findIndex((o) => o.orderId === order.orderId);
-        if (index !== -1) {
-          this.orders.splice(index, 1); // Remove the order from the list
-        }
-    }
-  } catch (error) {
-    console.error("Error cancelling order: ", error);
-    this.setAlert("There was an issue cancelling the order. Please check the order status and try again.", "danger", "Error!")
-  }
-    },
-    setAlert(message, type, title) {
+},
+setAlert(message, type, title) {
       this.alertMessage = message;
       this.alertType = type;
       this.alertTitle = title;
@@ -250,7 +221,7 @@ h2 {
     width: 0%;
   }
   100% {
-    width: 50%;
+    width: 10%;
   }
 }
 .animated-bar {

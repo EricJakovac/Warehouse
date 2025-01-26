@@ -21,19 +21,15 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    @GetMapping("/{productCode}")
-    public Product getProductByProductCode(@PathVariable String productCode) {
-        return productService.getProductByProductCode(productCode);
-    }
-
     @GetMapping("/warehouse/{warehouseId}")
     public List<Product> getProductsByWarehouse(@PathVariable Long warehouseId, @RequestParam(defaultValue = "true") boolean sortByName) {
         return productService.getProductsByWarehouseId(warehouseId, sortByName);
     }
 
     @GetMapping("/{productCode}")
-    public Product getProductByProductCode(@PathVariable String productCode) {
-        return productService.getProductByProductCode(productCode);
+    public ProductDTO getProductByProductCode(@PathVariable String productCode) {
+        Product product = productService.getProductByProductCode(productCode);
+        return ProductDTO.fromEntity(product);
     }
 
     @PostMapping
@@ -51,8 +47,12 @@ public class ProductController {
     }
 
     @PutMapping("/{productCode}")
-    public Product updateProduct(@PathVariable @Pattern(regexp = "^[0-9]{6}$") String productCode, @RequestBody Product product) {
-        return productService.updateProduct(productCode, product);
+    public ProductDTO updateProduct(
+            @PathVariable @Pattern(regexp = "^[0-9]{6}$") String productCode,
+            @RequestBody ProductDTO productDTO) {
+
+        Product updatedProduct = productService.updateProduct(productCode, ProductDTO.toEntity(productDTO), productDTO.getWarehouseId());
+        return ProductDTO.fromEntity(updatedProduct);
     }
 
     @DeleteMapping("/{productCode}")
