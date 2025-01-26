@@ -3,30 +3,33 @@
     <div class="content">
       <div class="header" style="height: auto; display: inherit;">
         <div class="sidebar-header">
-          <h2>Admin Dashboard</h2>
+          <router-link to="/">
+            <h2>Admin Dashboard</h2>
+          </router-link>
         </div>
 
-        <!-- Navbar -->
+        <!--Navbar-->
         <div class="navbar">
           <router-link to="/" style="display: flex; flex-direction: column;">
-            <div class="nav_current">
+            <div class="nav_link">
               <v-icon name="hi-home" class="icon" />
               <h3>Home</h3>
             </div>
-            <div class="line_current"></div>
+            <div class="line_hover"></div>
           </router-link>
 
-          <router-link to="/warehouses" style="display: flex; flex-direction: column;">
+          <router-link to="/orders" style="display: flex; flex-direction: column;">
             <div class="nav_link">
               <v-icon name="bi-box-seam" class="icon" />
-              <h3>Warehouse Management</h3>
+              <h3>Orders</h3>
             </div>
             <div class="line_hover"></div>
           </router-link>
         </div>
+
       </div>
 
-      <!-- Content -->
+      <!--Content-->
       <div class="view">
         <div class="content">
           <div class="content_wrapper">
@@ -41,127 +44,168 @@
               </div>
             </div>
 
+            <!--Title-->
             <div class="title">
-              <h1>Edit Product</h1>
+              <h1>Add product {{ product.productCode}},  {{ originalProductName }}</h1>
             </div>
+            
+            <!--Form-->
+            <div class="flex items-center justify-center p-12" style="padding-top: 2rem; padding-bottom: unset;">
+              <div class="mx-auto w-full" style="margin: unset !important; display: flex; justify-content: center;">
+                <form @submit.prevent="updateProduct">
 
-            <!-- Form -->
-            <div class="flex items-center justify-center p-12">
-              <div class="mx-auto w-full max-w-[550px]">
-                <form @submit.prevent="submitProductUpdate">
-                  <!-- code and name -->
-                  <div class="-mx-3 flex flex-wrap">
-                    <!-- product code -->
-                    <div class="w-full px-3 sm:w-1/2">
-                      <div class="mb-5">
-                        <label for="productCode" class="mb-3 block text-base font-medium text-[#0d1b2a]">
-                          Product Code
-                        </label>
-                        <input
-                          v-model="product.productCode"
-                          type="text"
-                          id="productCode"
-                          class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                          disabled
-                        />
+                  <!--1st row-->
+                  <div style="display: flex; flex-direction: row; margin-bottom: 50px;">
+                    <!--code and name-->
+                    <div class="-mx-3 flex flex-wrap" style="width: auto; margin-right: 10px;">
+                      <!--product code-->
+                      <div class="w-full px-3 sm:w-1/2" style="padding: unset !important;">
+                        <div class="mb-5" style="margin-right: 20px; margin-bottom: unset !important;">
+                          <label for="productCode" class="mb-3 block text-base font-medium text-[#0d1b2a]"
+                          style="font-weight: 600;">
+                            Product code
+                          </label>
+                          <div style="display: flex;">
+                            <input
+                            v-model="product.productCode"
+                            type="text"
+                            id="productCode"
+                            disabled
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                            style="border-top-right-radius: unset; border-bottom-right-radius: unset;"
+                          />
+                            <button type="button" 
+                            @click="generateProductCode"
+                            disabled
+                            class="ml-3 px-4 py-2 text-white bg-blue-500 rounded-md text-sm" 
+                            style="background-color: #1b263b; margin-left: unset; border-top-left-radius: unset; border-bottom-left-radius: unset;">
+                            <v-icon name="hi-refresh" class="icon" style="margin: unset !important;" />
+                          </button>
+                          </div>
+                        </div>
+                      </div>
+                      <!--product name-->
+                      <div class="w-full px-3 sm:w-1/2" style="padding: unset !important;">
+                        <div class="mb-5" style="margin-right: 20px; margin-bottom: unset !important;">
+                          <label for="productName" class="mb-3 block text-base font-medium text-[#0d1b2a]"
+                          style="font-weight: 600;">
+                            Product name
+                          </label>
+                          <input
+                            v-model="product.productName"
+                            type="text"
+                            id="productName"
+                            placeholder="Enter full product name"
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                          />
+                        </div>
+                        
                       </div>
                     </div>
-                    <!-- product name -->
-                    <div class="w-full px-3 sm:w-1/2">
-                      <div class="mb-5">
-                        <label for="productName" class="mb-3 block text-base font-medium text-[#0d1b2a]">
-                          Product Name
-                        </label>
-                        <input
-                          v-model="product.productName"
-                          type="text"
-                          id="productName"
-                          placeholder="Enter full product name"
-                          class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                        />
+
+                    <!-- quantity-->
+                    <div class="-mx-3 flex flex-wrap">
+                      <!--product quantity-->
+                      <div class="w-full px-3 sm:w-1/2" style="padding: unset !important;">
+                        <div class="mb-5" style="margin-right: 20px; margin-bottom: unset !important;">
+                          <label for="productQuantity" class="mb-3 block text-base font-medium text-[#0d1b2a]"
+                          style="font-weight: 600;">
+                            Quantity Of Product
+                          </label>
+                          <input
+                            v-model="product.productQuantity"
+                            type="number"
+                            id="productQuantity"
+                            placeholder="5"
+                            min="0"
+                            class="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                          />
+                        </div>
+                      </div>
+                      <!--product min quantity-->
+                      <div class="w-full px-3 sm:w-1/2" style="padding: unset !important;">
+                        <div class="mb-5" style="margin-right: 20px; margin-bottom: unset !important;">
+                          <label for="productMinQuantity" class="mb-3 block text-base font-medium text-[#0d1b2a]"
+                          style="font-weight: 600;">
+                            Minimal Quantity Of Product
+                          </label>
+                          <input
+                            v-model="product.productMinQuantity"
+                            type="number"
+                            id="productMinQuantity"
+                            placeholder="0"
+                            min="0"
+                            class="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                          />
+                        </div>
                       </div>
                     </div>
+
                   </div>
 
-                  <!-- Quantity and price -->
-                  <div class="-mx-3 flex flex-wrap">
-                    <div class="w-full px-3 sm:w-1/2">
-                      <div class="mb-5">
-                        <label for="productQuantity" class="mb-3 block text-base font-medium text-[#0d1b2a]">
-                          Quantity of Product
+                  <!--2nd row-->
+                  <div style="display: flex; flex-direction: row; justify-content: center; margin-bottom: 50px;">
+                    <!-- product price -->
+                    <div class="-mx-3 flex flex-wrap">
+                      <div class="mb-5" style="padding: unset !important; margin-bottom: unset !important;">
+                        <label for="productPrice" class="mb-3 block text-base font-medium text-[#0d1b2a]"
+                        style="font-weight: 600;">
+                          Product Price
                         </label>
                         <input
-                          v-model="product.productQuantity"
+                          v-model="product.productPrice"
                           type="number"
-                          id="productQuantity"
+                          id="productPrice"
+                          placeholder="0.00"
+                          step="0.01"
                           class="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#6A64F1] focus:shadow-md"
                         />
                       </div>
                     </div>
-                    <div class="w-full px-3 sm:w-1/2">
-                      <div class="mb-5">
-                        <label for="productMinQuantity" class="mb-3 block text-base font-medium text-[#0d1b2a]">
-                          Minimal Quantity of Product
-                        </label>
-                        <input
-                          v-model="product.productMinQuantity"
-                          type="number"
-                          id="productMinQuantity"
-                          class="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                        />
+
+                    <!-- dates -->
+                    <div class="-mx-3 flex flex-wrap" style="padding-left: 44px;">
+                      <!--arrive date-->
+                      <div class="w-full px-3 sm:w-1/2" style="padding: unset !important;">
+                        <div class="mb-5" style="margin-right: 20px; margin-bottom: unset !important;">
+                          <label for="productArriveDate" class="mb-3 block text-base font-medium text-[#0d1b2a]"
+                          style="font-weight: 600;">
+                            Product arrive Date
+                          </label>
+                          <input
+                            v-model="product.productArriveDate"
+                            type="date"
+                            id="productArriveDate"
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#0d1b2a] focus:shadow-md"
+                          />
+                        </div>
+                      </div>
+
+                      <!--departure date-->
+                      <div class="w-full px-3 sm:w-1/2" style="padding: unset !important;">
+                        <div class="mb-5" style="margin-right: 20px; margin-bottom: unset !important;">
+                          <label for="productDepartureDate" class="mb-3 block text-base font-medium text-[#0d1b2a]"
+                          style="font-weight: 600;">
+                            Product Departure Date
+                          </label>
+                          <input
+                            v-model="product.productDepartureDate"
+                            type="date"
+                            id="productDepartureDate"
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#0d1b2a] focus:shadow-md"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  <!-- Product price -->
-                  <div class="mb-5">
-                    <label for="productPrice" class="mb-3 block text-base font-medium text-[#0d1b2a]">
-                      Product Price
+                  <!-- 3rd row -->
+                  <div class="mb-5" style="margin-bottom: 50px !important;">
+                    <label class="mb-3 block text-base font-medium text-[#0d1b2a]"
+                    style="font-weight: 600;  margin-bottom: 50px;">
+                      Select Warehouse {{ product.selectedWarehouse }}
                     </label>
-                    <input
-                      v-model="product.productPrice"
-                      type="number"
-                      id="productPrice"
-                      class="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    />
-                  </div>
-
-                  <!-- Dates -->
-                  <div class="-mx-3 flex flex-wrap">
-                    <div class="w-full px-3 sm:w-1/2">
-                      <div class="mb-5">
-                        <label for="productArriveDate" class="mb-3 block text-base font-medium text-[#0d1b2a]">
-                          Product Arrival Date
-                        </label>
-                        <input
-                          v-model="product.productArriveDate"
-                          type="datetime-local"
-                          id="productArriveDate"
-                          class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                        />
-                      </div>
-                    </div>
-                    <div class="w-full px-3 sm:w-1/2">
-                      <div class="mb-5">
-                        <label for="productDepartureDate" class="mb-3 block text-base font-medium text-[#0d1b2a]">
-                          Product Departure Date
-                        </label>
-                        <input
-                          v-model="product.productDepartureDate"
-                          type="datetime-local"
-                          id="productDepartureDate"
-                          class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Warehouse selection -->
-                  <div class="mb-5">
-                    <label class="mb-3 block text-base font-medium text-[#0d1b2a]">
-                      Select Warehouse
-                    </label>
-                    <div class="flex flex-wrap gap-4">
+                    <div class="flex flex-wrap gap-4" style="display: flex; justify-content: center;">
                       <div v-for="warehouse in warehouses" :key="warehouse.id" class="flex items-center">
                         <input
                           type="radio"
@@ -177,15 +221,15 @@
                     </div>
                   </div>
 
-                  <!-- Buttons -->
+                  <!-- buttons -->
                   <div>
                     <button class="middle none center mr-3 rounded-lg border border-[#1b263b] py-3 px-6 font-sans text-xs font-bold uppercase text-[#1b263b] transition-all hover:opacity-75 focus:ring focus:ring-gray-200 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                      type="button" @click="$router.push('/')">
+                      type="button" @click="cancelEdit">
                       Cancel
                     </button>
-                    <button class="middle none center mr-3 rounded-lg bg-gradient-to-tr from-[#7E99A3] to-[#7E99A3] py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-500/20 transition-all hover:shadow-lg hover:shadow-gray-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                    <button class="middle none center mr-3 rounded-lg bg-gradient-to-tr from-[#1b263b] to-[#1b263b] py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-500/20 transition-all hover:shadow-lg hover:shadow-gray-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" 
                       type="submit">
-                      Update
+                      Save
                     </button>
                   </div>
                 </form>
@@ -194,6 +238,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -205,98 +250,124 @@ export default {
   data() {
     return {
       product: {
-        productCode: "",
-        productName: "",
+        productCode: '',
+        productName: '',
         productQuantity: 0,
         productMinQuantity: 0,
         productPrice: 0,
-        productArriveDate: "",
-        productDepartureDate: "",
-        selectedWarehouse: null,  // Single warehouse id, not an array
+        productArriveDate: '',
+        productDepartureDate: '',
+        selectedWarehouse: null,
+        warehouseId: null,
       },
-      warehouses: [],
-      alertMessage: "",
-      alertTitle: "",
-      alertType: "",
+      originalProductName: '',
+        warehouses: [
+          { id: 1, name: 'Warehouse Rijeka' },
+          { id: 2, name: 'Warehouse Zagreb' },
+          ],
+        loading: true,
+        alertMessage: "",
+        alertTitle: "",
+        alertType: "",
     };
   },
-  async created() {
-  try {
-    const productCode = this.$route.params.id;
-    console.log("Fetching product with code:", productCode); // Debugging log
-    console.log("Fetched product: ", productResponse.data);
-    console.log("Fetched warehouses: ", warehousesResponse.data);
-    const [productResponse, warehousesResponse] = await Promise.all([
-      axios.get(`http://localhost:8080/products/${productCode}`),
-      axios.get("http://localhost:8080/warehouses/"),
-    ]);
-    this.product = { ...productResponse.data };
-    this.warehouses = warehousesResponse.data;
-  } catch (error) {
-    console.error("Error details:", error.response ? error.response.data : error.message);
-    if (error.response && error.response.status === 404) {
-      this.showAlert("Product not found. Please check the ID.", "Error", "error");
-    } else {
-      this.showAlert("Failed to load data. Please try again later.", "Error", "error");
-    }
-  }
-},
-
   methods: {
-    async submitProductUpdate() {
+    async fetchProductDetails() {
+      const productCode = this.$route.params.id;
       try {
-        const productRequest = {
-          productCode: this.product.productCode,
-          productName: this.product.productName,
-          productQuantity: this.product.productQuantity,
-          productMinQuantity: this.product.productMinQuantity,
-          productPrice: this.product.productPrice,
-          productArriveDate: this.formatDateString(this.product.productArriveDate),
-          productDepartureDate: this.formatDateString(this.product.productDepartureDate),
-          warehouseId: this.product.selectedWarehouse,
-        };
-
-        const productId = this.$route.params.id;
-        await axios.put(`http://localhost:8080/products/${productId}`, productRequest);
-        this.showAlert("Product updated successfully!", "Success", "success");
-        this.$router.push("/");
-      } catch (error) {
-        console.error("Failed to update product: ", error);
-        this.showAlert("Failed to update product. Please try again.", "Error", "error");
+        const response = await axios.get(`http://localhost:8080/products/${productCode}`);
+        this.product = response.data; // Directly map response data to product
+        this.originalProductName = this.product.productName; //Store original name
+        this.product.selectedWarehouse = this.product.warehouseId || null;
+        } catch (error) {
+        console.error("Error fetching product:", error);
+      } finally {
+        this.loading = false;
       }
     },
-    showAlert(message, title, type) {
+    async updateProduct() {
+      const productCode = this.$route.params.id;
+
+       // Validate the product price
+      const pricePattern = /^\d+(\.\d{1,2})?$/; // Matches numbers like 12 or 12.09
+      if (!pricePattern.test(this.product.productPrice) || this.product.productPrice < 0) {
+        this.setAlert(
+          "Product price is invalid. Please ensure it's a positive number in the format 12 or 12.09.",
+          "danger",
+          "Invalid Input"
+        );
+        return; // Prevent the update
+      }
+
+      try {
+        await axios.put(`http://localhost:8080/products/${productCode}`, {
+        ...this.product,
+        warehouseId: this.product.selectedWarehouse || 0,
+          });
+        this.setAlert("Product updated successfully", "success", "Success!");
+
+
+      //Redirect after 2 secs
+      setTimeout(() => {
+          this.$router.push('/');
+        }, 2000);
+      } catch(error) {
+        console.error('Error adding product: ', error);
+        this.setAlert('Failed to add product.', 'danger', 'Error!');
+      } 
+    },
+    cancelEdit() {
+    this.$router.push('/');
+    this.resetProductForm();
+    },
+    resetProductForm() {
+      this.product = {
+        productCode: '',
+        productName: '',
+        productQuantity: 0,
+        productMinQuantity: 0,
+        productPrice: 0,
+        productArriveDate: '',
+        productDepartureDate: '',
+        selectedWarehouse: null,
+      };
+    },
+
+    setAlert(message, type, title) {
       this.alertMessage = message;
-      this.alertTitle = title;
       this.alertType = type;
+      this.alertTitle = title;
+
+       // Auto clear the alert after 5 seconds
+    setTimeout(() => {
+      this.alertMessage = "";
+      this.alertTitle = "";
+      this.alertType = "";
+    }, 5000);
     },
-    formatDateString(date) {
-      if (!date) return null;
-      return new Date(date).toISOString().slice(0, 16);
-    },
+
+    generateProductCode() {
+    // Generate a random 6-digit product code
+    this.product.productCode = Math.floor(100000 + Math.random() * 900000).toString();
   },
-  
+
+  },
+  mounted() {
+    this.fetchProductDetails();
+  },
+
   computed: {
     alertClass() {
-      switch (this.alertType) {
-        case "success":
-          return "bg-green-100 text-green-700";
-        case "error":
-          return "bg-red-100 text-red-700";
-        case "info":
-          return "bg-blue-100 text-blue-700";
-        case "warning":
-          return "bg-yellow-100 text-yellow-700";
-        default:
-          return "";
-      }
-    },
+      return {
+        'bg-blue-100 text-blue-700': this.alertType === 'info',
+        'bg-red-100 text-red-700': this.alertType === 'danger',
+        'bg-green-100 text-green-700': this.alertType === 'success',
+        'bg-yellow-100 text-yellow-700': this.alertType === 'warning',
+      };
+    }
   },
-
 };
 </script>
-
-
 
 <style scoped>
 /* Tailwind setup */
@@ -313,10 +384,10 @@ export default {
 }
 
 h1 {
-  font-size: 40px;
+  font-size: 33px;
   font-weight: 600;
   padding-bottom: unset;
-  padding-top: 20px;
+  padding-top: 10px;
 }
 
 h2 {

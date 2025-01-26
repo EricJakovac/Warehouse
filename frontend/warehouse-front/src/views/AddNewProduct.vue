@@ -3,7 +3,9 @@
     <div class="content">
       <div class="header" style="height: auto; display: inherit;">
         <div class="sidebar-header">
-          <h2>Admin Dashboard</h2>
+          <router-link to="/">
+            <h2>Warehouse Management</h2>
+          </router-link>
         </div>
 
         <!--Navbar-->
@@ -16,10 +18,10 @@
             <div class="line_hover"></div>
           </router-link>
 
-          <router-link to="/warehouses" style="display: flex; flex-direction: column;">
+          <router-link to="/orders" style="display: flex; flex-direction: column;">
             <div class="nav_link">
               <v-icon name="bi-box-seam" class="icon" />
-              <h3>Warehouse Management</h3>
+              <h3>Orders</h3>
             </div>
             <div class="line_hover"></div>
           </router-link>
@@ -163,7 +165,7 @@
                           </label>
                           <input
                             v-model="product.productArriveDate"
-                            type="datetime-local"
+                            type="date"
                             id="productArriveDate"
                             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#0d1b2a] focus:shadow-md"
                           />
@@ -178,7 +180,7 @@
                           </label>
                           <input
                             v-model="product.productDepartureDate"
-                            type="datetime-local"
+                            type="date"
                             id="productDepartureDate"
                             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#0d1b2a] outline-none focus:border-[#0d1b2a] focus:shadow-md"
                           />
@@ -273,8 +275,8 @@ export default {
           productQuantity: this.product.productQuantity,
           productMinQuantity: this.product.productMinQuantity,
           productPrice: parseFloat(this.product.productPrice).toFixed(2),
-          productArriveDate: this.formatDateString(this.product.productArriveDate),
-          productDepartureDate:this.formatDateString (this.product.productDepartureDate),
+          productArriveDate: this.product.productArriveDate,
+          productDepartureDate:this.product.productDepartureDate,
           warehouseId: this.product.selectedWarehouse,
         };
 
@@ -298,12 +300,7 @@ export default {
       this.alertMessage = message;
       this.alertType = type;
       this.alertTitle = title;
-    },
-
-  formatDateString(date) {
-    if (!date) return null;
-    return new Date(date).toISOString().slice(0,16);
-  }
+    }
 },
 computed: {
     alertClass() {
@@ -336,10 +333,10 @@ computed: {
 }
 
 h1 {
-  font-size: 40px;
+  font-size: 33px;
   font-weight: 600;
   padding-bottom: unset;
-  padding-top: 20px;
+  padding-top: 10px;
 }
 
 h2 {
