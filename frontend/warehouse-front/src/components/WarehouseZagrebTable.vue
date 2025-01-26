@@ -41,7 +41,7 @@
               <td>{{ formatDate(item.arrive_date) }}</td>
               <td>{{ formatDate(item.departure_date) }}</td>
               <!--Actions-->
-              <td style="height: 100%">
+              <td style="height: 100%; min-width: 80px;">
               <button class="edit_btn" @click="editProduct(item)" style="width: 50%;">
                 <div style="border-radius: 100px; background-color: #1b263b; color: #ffffff; width: 24px;">
                 <v-icon name="md-modeeditoutline" class="icon" style="width: 15px;"/>

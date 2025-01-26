@@ -203,7 +203,7 @@
                   <div class="mb-5" style="margin-bottom: 50px !important;">
                     <label class="mb-3 block text-base font-medium text-[#0d1b2a]"
                     style="font-weight: 600;  margin-bottom: 50px;">
-                      Select Warehouse
+                      Select Warehouse {{ product.selectedWarehouse }}
                     </label>
                     <div class="flex flex-wrap gap-4" style="display: flex; justify-content: center;">
                       <div v-for="warehouse in warehouses" :key="warehouse.id" class="flex items-center">
@@ -212,7 +212,6 @@
                           :id="'warehouse-' + warehouse.id"
                           :value="warehouse.id"
                           v-model="product.selectedWarehouse"
-                          :checked="product.selectedWarehouse === warehouse.id"
                           class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                         />
                         <label :for="'warehouse-' + warehouse.id" class="ml-2 text-sm text-gray-700">
@@ -259,6 +258,7 @@ export default {
         productArriveDate: '',
         productDepartureDate: '',
         selectedWarehouse: null,
+        warehouseId: null,
       },
       originalProductName: '',
         warehouses: [
@@ -278,7 +278,7 @@ export default {
         const response = await axios.get(`http://localhost:8080/products/${productCode}`);
         this.product = response.data; // Directly map response data to product
         this.originalProductName = this.product.productName; //Store original name
-        this.product.selectedWarehouse = this.product.warehouse.id;
+        this.product.selectedWarehouse = this.product.warehouseId || null;
         } catch (error) {
         console.error("Error fetching product:", error);
       } finally {
@@ -300,10 +300,13 @@ export default {
       }
 
       try {
-        await axios.put(`http://localhost:8080/products/${productCode}`, this.product);
+        await axios.put(`http://localhost:8080/products/${productCode}`, {
+        ...this.product,
+        warehouseId: this.product.selectedWarehouse || 0,
+          });
         this.setAlert("Product updated successfully", "success", "Success!");
-      
-      
+
+
       //Redirect after 2 secs
       setTimeout(() => {
           this.$router.push('/');
